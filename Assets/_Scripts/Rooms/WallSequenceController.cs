@@ -7,7 +7,20 @@ public class WallSequenceController : MonoBehaviour
     int currentIndex = 0;
 
     public bool roomCompleted;
+    void Awake()
+    {
+        foreach (WallVisual wall in walls)
+        {
+            wall.sequenceController = this;
+        }
 
+        // Auto-attach WallGroup component if not present in the scene
+        if (GetComponent<WallGroup>() == null)
+        {
+            WallGroup group = gameObject.AddComponent<WallGroup>();
+            group.sequenceController = this;
+        }
+    }
     public WallVisual CurrentWall
     {
         get
@@ -19,28 +32,45 @@ public class WallSequenceController : MonoBehaviour
         }
     }
 
-    public bool CanPaint(WallVisual floor)
+    public bool CanPaint(WallVisual wall)
     {
-        return floor == CurrentWall;
+        return wall == CurrentWall;
+    }
+
+    public void RecalculateCurrentIndex()
+    {
+        currentIndex = 0;
+        roomCompleted = false;
+
+        for (int i = 0; i < walls.Length; i++)
+        {
+            if (!walls[i].completed)
+            {
+                currentIndex = i;
+                return;
+            }
+        }
+
+        currentIndex = walls.Length;
+        roomCompleted = true;
+        Debug.Log("ROOM COMPLETE");
     }
 
     public void CheckProgress()
     {
-        if (CurrentWall == null)
-            return;
+        RecalculateCurrentIndex();
+    }
 
-        if (CurrentWall.completed)
+    // RESET TOÀN BỘ
+    public void ResetSequence()
+    {
+        foreach (WallVisual wall in walls)
         {
-            currentIndex++;
-
-            Debug.Log("NEXT WALL");
-
-            if (currentIndex >= walls.Length)
-            {
-                roomCompleted = true;
-
-                Debug.Log("ROOM COMPLETE");
-            }
+            wall.ResetWall();
         }
+
+        RecalculateCurrentIndex();
+
+        Debug.Log("SEQUENCE RESET");
     }
 }

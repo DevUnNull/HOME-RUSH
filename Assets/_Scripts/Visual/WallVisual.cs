@@ -11,6 +11,11 @@ public class WallVisual : MonoBehaviour
 
     public bool completed;
 
+    public Color currentPaintColor = Color.blue;
+
+    // GROUP OWNER
+    public WallSequenceController sequenceController;
+
     void Awake()
     {
         rend = GetComponent<Renderer>();
@@ -37,13 +42,30 @@ public class WallVisual : MonoBehaviour
         }
     }
 
+    public void SetPaintColor(Color color)
+    {
+        currentPaintColor = color;
+
+        UpdateVisual();
+    }
+
+    public void ResetWall()
+    {
+        progress = 0;
+
+        completed = false;
+
+        UpdateVisual();
+    }
+
     public void UpdateVisual()
     {
         rend.GetPropertyBlock(block);
 
         block.SetFloat("_Progress", progress);
 
+        block.SetColor("_PaintColor", currentPaintColor);
+
         rend.SetPropertyBlock(block);
     }
-    
 }
