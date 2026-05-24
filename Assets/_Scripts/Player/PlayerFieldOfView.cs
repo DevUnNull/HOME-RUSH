@@ -15,7 +15,9 @@ public class PlayerFieldOfView : NetworkBehaviour
     public List<LayerMask> obstacleMasks = new List<LayerMask>();
 
     [Header("Targets")]
-    [SerializeField] private List<Transform> visibleTargets = new List<Transform>();
+    public List<Transform> visibleOrderedTargets = new();
+
+    private List<Transform> unorder = new();
 
     public override void FixedUpdateNetwork()
     {
@@ -28,7 +30,7 @@ public class PlayerFieldOfView : NetworkBehaviour
 
     private void FindVisibleTargets()
     {
-        visibleTargets.Clear();
+        visibleOrderedTargets.Clear();
         int combinedObstacleMask = 0;
 
         foreach (LayerMask mask in obstacleMasks)
@@ -49,10 +51,19 @@ public class PlayerFieldOfView : NetworkBehaviour
 
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, combinedObstacleMask))
                 {
-                    visibleTargets.Add(target);
+                    visibleOrderedTargets.Add(target);
                 }
             }
         }
+
+        unorder.Sort((a, b) =>
+        {  
+            float distA = (a.position - transform.position).sqrMagnitude;
+            float distB = (b.position - transform.position).sqrMagnitude;
+            return distA.CompareTo(distB);
+        });
+
+        visibleOrderedTargets.AddRange(unorder);
     }
 
     private void OnDrawGizmos()
@@ -68,7 +79,7 @@ public class PlayerFieldOfView : NetworkBehaviour
         Gizmos.DrawLine(transform.position, transform.position + viewAngleB * viewRadius);
 
         Gizmos.color = Color.red;
-        foreach (Transform visibleTarget in visibleTargets)
+        foreach (Transform visibleTarget in visibleOrderedTargets)
         {
             Gizmos.DrawLine(transform.position, visibleTarget.position);
         }
