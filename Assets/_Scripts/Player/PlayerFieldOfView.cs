@@ -31,6 +31,7 @@ public class PlayerFieldOfView : NetworkBehaviour
     private void FindVisibleTargets()
     {
         visibleOrderedTargets.Clear();
+        unorder.Clear();
         int combinedObstacleMask = 0;
 
         foreach (LayerMask mask in obstacleMasks)
@@ -51,7 +52,7 @@ public class PlayerFieldOfView : NetworkBehaviour
 
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, combinedObstacleMask))
                 {
-                    visibleOrderedTargets.Add(target);
+                    unorder.Add(target);
                 }
             }
         }
