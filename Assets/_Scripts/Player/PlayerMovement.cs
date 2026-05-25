@@ -39,7 +39,7 @@ public class PlayerMovement : NetworkBehaviour
         if (!HasStateAuthority) return;
 
         base.FixedUpdateNetwork();
-        HandleMovement(inputVec );
+        HandleMovement(inputVec);
     }
 
     private void GetInputVector()
@@ -50,6 +50,6 @@ public class PlayerMovement : NetworkBehaviour
     private void HandleMovement(Vector2 moveVec)
     {
         Vector3 move = transform.right * moveVec.x + transform.forward * moveVec.y + Vector3.down * gravity;
-        characterController.Move(playerMoveSpeed * Time.fixedDeltaTime * move);
+        characterController.Move(playerMoveSpeed * Runner.DeltaTime * move);
     }
 }
