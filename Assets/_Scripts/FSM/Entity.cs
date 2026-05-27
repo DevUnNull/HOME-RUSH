@@ -7,6 +7,8 @@ public class Entity : NetworkBehaviour
 
     protected virtual void Update()
     {
+        if (fsm == null || fsm.currentState == null) return;
+
         fsm.currentState.UpdateLogic();
     }
 

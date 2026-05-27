@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PlayerTopEntity : Entity
 {
+    [Networked, OnChangedRender(nameof(OnHeldItemChanged))]
+    public NetworkObject HeldItem { get; set; }
+
     public PlayerController playerController;
 
     public PlayerRunTop runTopState;
@@ -15,6 +18,7 @@ public class PlayerTopEntity : Entity
     public override void Spawned()
     {
         base.Spawned();
+        if (!HasStateAuthority) return;
 
         inputActions = new PlayerInput();
         inputActions.Enable();
@@ -32,7 +36,7 @@ public class PlayerTopEntity : Entity
     protected override void Update()
     {
         base.Update();
-        
+
         if (!HasStateAuthority) return;
 
         inputVector = inputActions.Player.WASD.ReadValue<Vector2>();
@@ -40,7 +44,43 @@ public class PlayerTopEntity : Entity
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        base.Despawned(runner, hasState);
         inputActions.Disable();
+        base.Despawned(runner, hasState);
+    }
+
+    public void PickUpItem(NetworkObject targetNetObj)
+    {
+        if (!targetNetObj.HasStateAuthority)
+        {
+            targetNetObj.RequestStateAuthority();
+        }
+        HeldItem = targetNetObj;
+    }
+
+    public void DropItem(NetworkObject targetNetObj)
+    {
+        HeldItem = null;
+    }
+
+    public void OnHeldItemChanged()
+    {
+        if (HeldItem != null)
+        {
+            HeldItem.GetComponent<Rigidbody>().isKinematic = true;
+            HeldItem.GetComponent<NetworkTransform>().enabled = false;
+            HeldItem.transform.SetParent(playerController.playerHand);
+            HeldItem.transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+            if (playerController.playerHand.childCount > 0)
+            {
+                Transform itemTransform = playerController.playerHand.GetChild(0);
+                itemTransform.SetParent(null);
+                itemTransform.GetComponent<Rigidbody>().isKinematic = false;
+                itemTransform.GetComponent<NetworkTransform>().enabled = true;
+                itemTransform.GetComponent<NetworkTransform>().Teleport(itemTransform.position, itemTransform.rotation);
+            }
+        }
     }
 }
