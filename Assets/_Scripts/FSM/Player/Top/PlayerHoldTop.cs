@@ -1,3 +1,4 @@
+using Fusion;
 using UnityEngine;
 
 public class PlayerHoldTop : State
@@ -11,11 +12,10 @@ public class PlayerHoldTop : State
     public override void EnterState()
     {
         base.EnterState();
-        Debug.Log("Enter PlayerHoldTop");
+        if (!((PlayerTopEntity)entity).HasStateAuthority) return;
 
         target = ((PlayerTopEntity)entity).playerController.playerFieldOfView.visibleOrderedTargets[0];
-        target.SetParent(((PlayerTopEntity)entity).playerController.playerHand);
-        target.localPosition = Vector3.zero;
+        ((PlayerTopEntity)entity).PickUpItem(target.GetComponent<NetworkObject>());
     }
 
     public override void UpdateLogic()
@@ -32,7 +32,7 @@ public class PlayerHoldTop : State
     public override void ExitState()
     {
         base.ExitState();
-        
-        target.SetParent(null);
+        if (!((PlayerTopEntity)entity).HasStateAuthority) return;
+        ((PlayerTopEntity)entity).DropItem(target.GetComponent<NetworkObject>());
     }
 }
