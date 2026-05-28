@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5313577277598494850}
   - component: {fileID: 8060447613214059757}
+  - component: {fileID: 7378652804369317267}
   m_Layer: 0
   m_Name: Rotation
   m_TagString: Untagged
@@ -30,8 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5759152949474945639}
-  - {fileID: 8249214518938771228}
+  - {fileID: 8070347481160261807}
   - {fileID: 8632688017564240565}
   - {fileID: 2697951907197901839}
   m_Father: {fileID: 6726538436104134349}
@@ -49,56 +49,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRotation
   rotationSpeed: 5
---- !u!1 &1180218470477436909
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5759152949474945639}
-  - component: {fileID: 5279133666174923339}
-  m_Layer: 0
-  m_Name: HandSocket
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5759152949474945639
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1180218470477436909}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5313577277598494850}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5279133666174923339
+--- !u!114 &7378652804369317267
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1180218470477436909}
+  m_GameObject: {fileID: 229852911220317508}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1c20abe6fb4f8d42a1d02e2f49f9b7d, type: 3}
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ToolController
-  interactionPoint: {fileID: 5759152949474945639}
-  interactionDistance: 2
-  interactionMask:
-    serializedVersion: 2
-    m_Bits: 256
-  materialID: 0
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkTransform
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1 &2078245250070149564
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,8 +77,11 @@ GameObject:
   - component: {fileID: 6726538436104134349}
   - component: {fileID: 344284065956979381}
   - component: {fileID: 4271217833633943982}
+  - component: {fileID: 9036670199907900829}
   - component: {fileID: -2312486029109277121}
   - component: {fileID: 3379766666839365238}
+  - component: {fileID: 3729248011953786623}
+  - component: {fileID: 8139463485393180080}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -150,11 +120,16 @@ MonoBehaviour:
   SortKey: 3534250265
   ObjectInterest: 1
   Flags: 262145
-  NestedObjects: []
+  NestedObjects:
+  - {fileID: 6753655429190126582}
   NetworkedBehaviours:
   - {fileID: 4271217833633943982}
+  - {fileID: 9036670199907900829}
   - {fileID: -2312486029109277121}
+  - {fileID: 3729248011953786623}
+  - {fileID: 8139463485393180080}
   - {fileID: 8060447613214059757}
+  - {fileID: 7378652804369317267}
   - {fileID: 2125899993509433969}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &4271217833633943982
@@ -174,6 +149,24 @@ MonoBehaviour:
   SyncParent: 0
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 0
+--- !u!114 &9036670199907900829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078245250070149564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39f4f8043c7d6742a3103ecad15f9a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  playerMovement: {fileID: -2312486029109277121}
+  playerFieldOfView: {fileID: 2125899993509433969}
+  playerRotation: {fileID: 8060447613214059757}
+  topPlayerEntity: {fileID: 8139463485393180080}
+  bottomPlayerEntity: {fileID: 3729248011953786623}
+  playerHand: {fileID: 8070347481160261807}
 --- !u!114 &-2312486029109277121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,12 +201,41 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 45
+  m_SlopeLimit: 0
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!1 &4016145908348766345
+--- !u!114 &3729248011953786623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078245250070149564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63c8666e9e61ee04eb48389788cc6db3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBottomEntity
+  playerController: {fileID: 9036670199907900829}
+  inputVector: {x: 0, y: 0}
+--- !u!114 &8139463485393180080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078245250070149564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 390e8473439747a44ad98a4b2ce3a4d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerTopEntity
+  _HeldItem: {fileID: 0}
+  playerController: {fileID: 9036670199907900829}
+  inputVector: {x: 0, y: 0}
+--- !u!1 &3614978916530718278
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -221,29 +243,67 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8249214518938771228}
+  - component: {fileID: 8070347481160261807}
+  - component: {fileID: 6753655429190126582}
+  - component: {fileID: 925538303903830214}
   m_Layer: 0
-  m_Name: InteractionPoint
+  m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8249214518938771228
+--- !u!4 &8070347481160261807
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4016145908348766345}
+  m_GameObject: {fileID: 3614978916530718278}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.114, z: 0.939}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5313577277598494850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6753655429190126582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3614978916530718278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 2236910109
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 925538303903830214}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &925538303903830214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3614978916530718278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkTransform
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1 &6471139128658165638
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,4 +470,4 @@ MonoBehaviour:
   obstacleMasks:
   - serializedVersion: 2
     m_Bits: 64
-  visibleTargets: []
+  visibleOrderedTargets: []
