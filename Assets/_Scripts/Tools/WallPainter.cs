@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class WallPainter : MonoBehaviour
 {
     [Header("Tool")]
@@ -28,8 +28,9 @@ public class WallPainter : MonoBehaviour
             return;
 
         // HOLD CHUỘT TRÁI ĐỂ SƠN
-        if (Input.GetMouseButton(0))
+         if (Keyboard.current.eKey.isPressed)
         {
+            Debug.Log("Holding E");
             Paint();
         }
     }
