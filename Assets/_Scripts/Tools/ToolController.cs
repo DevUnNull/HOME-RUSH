@@ -40,15 +40,15 @@ public class ToolController : MonoBehaviour
     //------------------------------------------------
 
     public bool TryGetWallGroup(
-        out WallGroup group
+        out NetworkWallGroup group
     )
     {
         return TryGetWallGroup(out group, out _);
     }
 
     public bool TryGetWallGroup(
-        out WallGroup group,
-        out WallVisual hitWall
+        out NetworkWallGroup group,
+        out NetworkWallVisual hitWall
     )
     {
         group = null;
@@ -76,8 +76,10 @@ public class ToolController : MonoBehaviour
             Debug.Log($"[TryGetWallGroup] Hit collider: {hit.collider.name} on Layer {hit.collider.gameObject.layer} at distance {hit.distance}");
 
             // Try to find WallGroup component on the hit collider or its ancestors
-            group = hit.collider.GetComponentInParent<WallGroup>();
-            hitWall = hit.collider.GetComponentInParent<WallVisual>();
+            group = hit.collider.GetComponentInParent<NetworkWallGroup>();
+            hitWall = hit.collider.GetComponentInParent<NetworkWallVisual>();
+
+            Debug.Log($"[TryGetWallGroup] found group={group?.name ?? "null"} hitWall={hitWall?.name ?? "null"}");
 
             // Fallback: if WallGroup is not found, resolve it via WallVisual and its sequence controller
             if (group == null)
@@ -88,12 +90,12 @@ public class ToolController : MonoBehaviour
                     if (hitWall.sequenceController != null)
                     {
                         // Look for WallGroup on the sequence controller's GameObject
-                        group = hitWall.sequenceController.GetComponent<WallGroup>();
+                        group = hitWall.sequenceController.GetComponent<NetworkWallGroup>();
 
                         // If still null, dynamically add WallGroup to the sequence controller's GameObject
                         if (group == null)
                         {
-                            group = hitWall.sequenceController.gameObject.AddComponent<WallGroup>();
+                            group = hitWall.sequenceController.gameObject.AddComponent<NetworkWallGroup>();
                             group.sequenceController = hitWall.sequenceController;
                             Debug.Log($"[TryGetWallGroup] Dynamically added WallGroup to {hitWall.sequenceController.name}");
                         }
