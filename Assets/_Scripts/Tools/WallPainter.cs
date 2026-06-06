@@ -1,6 +1,8 @@
+using Fusion;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class WallPainter : MonoBehaviour
+
+public class NetworkWallPainter : NetworkBehaviour
 {
     [Header("Tool")]
     [SerializeField] private ToolController tool;
@@ -8,171 +10,118 @@ public class WallPainter : MonoBehaviour
     [Header("Paint")]
     [SerializeField] private float paintSpeed = 2f;
 
-    [Header("Debug")]
-    [SerializeField] private bool debugLogs = true;
-
-    private Color lastAppliedColor;
-
-    private bool hasPainted = false;
-
-    private float nextSearchTime = 0f;
-
-    //================================================
-    // UPDATE
-    //================================================
-
     void Update()
     {
-        // CHỜ PLAYER SPAWN
-        if (!TryFindTool())
-            return;
-
-        // HOLD CHUỘT TRÁI ĐỂ SƠN
-         if (Keyboard.current.eKey.isPressed)
+        if (Object == null)
         {
-            Debug.Log("Holding E");
-            Paint();
+            Debug.Log("NetworkWallPainter.Update: Object is null");
+            return;
+        }
+
+        if (!Object.HasInputAuthority)
+        {
+            Debug.Log("NetworkWallPainter.Update: no input authority");
+            return;
+        }
+
+        if (Keyboard.current.eKey.isPressed)
+        {
+            Debug.Log("NetworkWallPainter.Update: E pressed");
+            TryPaint();
         }
     }
 
-    //================================================
-    // AUTO FIND TOOL
-    //================================================
-
-    bool TryFindTool()
+    public void TryPaint()
     {
-        // ĐÃ CÓ TOOL
-        if (tool != null)
-            return true;
-
-        // GIẢM TẦN SUẤT SEARCH
-        if (Time.time < nextSearchTime)
-            return false;
-
-        nextSearchTime = Time.time + 1f;
-
-        tool = FindFirstObjectByType<ToolController>();
-
-        if (tool != null)
+        if (tool == null)
         {
-            if (debugLogs)
-                Debug.Log("ToolController Found!");
-        }
-        else
-        {
-            if (debugLogs)
-                Debug.Log("Waiting ToolController Spawn...");
-        }
-
-        return tool != null;
-    }
-
-    //================================================
-    // PAINT
-    //================================================
-
-    void Paint()
-    {
-        Debug.Log("PAINT START");
-
-        if (PaintColorManager.Instance == null)
-        {
-            Debug.LogError("NO COLOR MANAGER");
+            Debug.LogWarning("NetworkWallPainter.TryPaint: tool is null");
             return;
         }
 
-        Color selectedColor =
-            PaintColorManager.Instance.currentColor;
-
-        //------------------------------------------------
-        // HIT GROUP & WALL
-        //------------------------------------------------
-
-        if (!tool.TryGetWallGroup(out WallGroup group, out WallVisual hitWall))
+        if (!tool.TryGetWallGroup(
+            out NetworkWallGroup group,
+            out NetworkWallVisual wall))
         {
-            Debug.Log("NO WALL GROUP HIT");
+            Debug.LogWarning("NetworkWallPainter.TryPaint: TryGetWallGroup returned false");
             return;
         }
 
-        Debug.Log("HIT GROUP : " + group.name);
-        if (hitWall != null)
+        if (group == null)
         {
-            Debug.Log("HIT WALL : " + hitWall.name);
-        }
-
-        //------------------------------------------------
-        // GET SEQUENCE
-        //------------------------------------------------
-
-        WallSequenceController sequence =
-            group.sequenceController;
-
-        if (sequence == null)
-        {
-            Debug.LogError("NO SEQUENCE");
+            Debug.LogWarning("NetworkWallPainter.TryPaint: group is null after TryGetWallGroup");
             return;
         }
 
-        Debug.Log("SEQUENCE FOUND");
-
-        //------------------------------------------------
-        // REPAINT / RESET LOGIC (IF COLOR IS DIFFERENT)
-        //------------------------------------------------
-
-        if (hitWall != null)
+        if (wall == null)
         {
-            // Check if we can paint this wall
-            bool isCurrentWall = (hitWall == sequence.CurrentWall);
-            bool isRepaintingCompletedWall = (hitWall.completed && selectedColor != hitWall.currentPaintColor);
-
-            if (!isCurrentWall && !isRepaintingCompletedWall)
+            Debug.Log("NetworkWallPainter.TryPaint: hit wall is null, trying from sequence controller");
+            if (group.sequenceController == null)
             {
-                // Cannot paint this wall (not current wall or it is already completed with the selected color)
+                Debug.LogWarning("NetworkWallPainter.TryPaint: group.sequenceController is null");
                 return;
             }
 
-            // If it's a completed wall and we want to paint with a different color, reset it first
-            if (isRepaintingCompletedWall)
+            wall = group.sequenceController.CurrentWall;
+            if (wall == null)
             {
-                Debug.Log("Repainting completed wall: " + hitWall.name);
-                hitWall.ResetWall();
-                sequence.RecalculateCurrentIndex();
-            }
-            else if (isCurrentWall && hitWall.progress > 0f && selectedColor != hitWall.currentPaintColor)
-            {
-                // If it's the current wall, in progress, but we paint with a different color, reset it too
-                Debug.Log("Changing color on current wall: " + hitWall.name);
-                hitWall.ResetWall();
+                Debug.LogWarning("NetworkWallPainter.TryPaint: no current wall available");
+                return;
             }
         }
 
-        //------------------------------------------------
-        // CURRENT WALL
-        //------------------------------------------------
-
-        WallVisual currentWall =
-            sequence.CurrentWall;
-
-        if (currentWall == null)
+        if (PaintColorManager.Instance == null)
         {
-            Debug.LogError("CURRENT WALL NULL");
+            Debug.LogError("NetworkWallPainter.TryPaint: PaintColorManager.Instance is null");
             return;
         }
 
-        Debug.Log("CURRENT WALL : " + currentWall.name);
+        Color selectedColor = PaintColorManager.Instance.currentColor;
+        Debug.Log($"NetworkWallPainter.TryPaint: selectedColor={selectedColor} wall={wall.name} wallId={wall.Object.Id}");
 
-        //------------------------------------------------
-        // APPLY COLOR
-        //------------------------------------------------
+        RPC_PaintWall(
+            wall.Object.Id,
+            selectedColor
+        );
+    }
 
-        currentWall.SetPaintColor(selectedColor);
+    [Rpc(RpcSources.InputAuthority,
+         RpcTargets.All)]
+    void RPC_PaintWall(
+        NetworkId wallId,
+        Color color)
+    {
+        Debug.Log($"NetworkWallPainter.RPC_PaintWall: received wallId={wallId} color={color} on {gameObject.name}");
 
-        currentWall.AddProgress(
-            Time.deltaTime * paintSpeed
+        NetworkObject obj =
+            Runner.FindObject(wallId);
+
+        if (obj == null)
+        {
+            Debug.LogWarning($"NetworkWallPainter.RPC_PaintWall: Runner.FindObject returned null for {wallId}");
+            return;
+        }
+
+        NetworkWallVisual wall =
+            obj.GetComponent<NetworkWallVisual>();
+
+        if (wall == null)
+        {
+            Debug.LogWarning($"NetworkWallPainter.RPC_PaintWall: NetworkWallVisual not found on object {obj.name}");
+            return;
+        }
+
+        wall.SetPaintColor(color);
+
+        wall.AddProgress(
+            Runner.DeltaTime * paintSpeed
         );
 
-        sequence.CheckProgress();
+        Debug.Log($"NetworkWallPainter.RPC_PaintWall: applied progress={wall.Progress} completed={wall.Completed} color={wall.PaintColor}");
 
-        Debug.Log("PAINT SUCCESS");
+        if (wall.sequenceController != null)
+        {
+            wall.sequenceController.CheckProgress();
+        }
     }
 }

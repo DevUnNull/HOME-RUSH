@@ -1,6 +1,7 @@
+using Fusion;
 using UnityEngine;
 
-public class WallGroup : MonoBehaviour
+public class NetworkWallGroup : NetworkBehaviour
 {
-    public WallSequenceController sequenceController;
+    public NetworkWallSequence sequenceController;
 }

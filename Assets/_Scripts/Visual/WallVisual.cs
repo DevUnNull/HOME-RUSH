@@ -1,70 +1,71 @@
+using Fusion;
 using UnityEngine;
 
-public class WallVisual : MonoBehaviour
+public class NetworkWallVisual : NetworkBehaviour
 {
     Renderer rend;
-
     MaterialPropertyBlock block;
 
-    [Range(0, 1)]
-    public float progress;
+    [Networked]
+    public float Progress { get; set; }
 
-    public bool completed;
+    [Networked]
+    public bool Completed { get; set; }
 
-    public Color currentPaintColor = Color.blue;
+    [Networked]
+    public Color PaintColor { get; set; }
 
-    // GROUP OWNER
-    public WallSequenceController sequenceController;
+    public NetworkWallSequence sequenceController;
 
-    void Awake()
+    public override void Spawned()
     {
         rend = GetComponent<Renderer>();
-
         block = new MaterialPropertyBlock();
+    }
+
+    public override void Render()
+    {
+        if (rend == null)
+        {
+            rend = GetComponent<Renderer>();
+            if (rend == null)
+                return;
+        }
+
+        UpdateVisual();
     }
 
     public void AddProgress(float amount)
     {
-        if (completed)
+        if (!Object.HasStateAuthority)
             return;
 
-        progress += amount;
+        if (Completed)
+            return;
 
-        progress = Mathf.Clamp01(progress);
+        Progress += amount;
 
-        UpdateVisual();
-
-        if (progress >= 1f)
+        if (Progress >= 1f)
         {
-            completed = true;
-
-            Debug.Log(name + " COMPLETED");
+            Progress = 1f;
+            Completed = true;
         }
     }
 
     public void SetPaintColor(Color color)
     {
-        currentPaintColor = color;
+        if (!Object.HasStateAuthority)
+            return;
 
-        UpdateVisual();
-    }
-
-    public void ResetWall()
-    {
-        progress = 0;
-
-        completed = false;
-
-        UpdateVisual();
+        PaintColor = color;
     }
 
     public void UpdateVisual()
     {
         rend.GetPropertyBlock(block);
 
-        block.SetFloat("_Progress", progress);
-
-        block.SetColor("_PaintColor", currentPaintColor);
+        block.SetFloat("_Progress", Progress);
+        block.SetColor("_PaintColor", PaintColor);
 
         rend.SetPropertyBlock(block);
     }

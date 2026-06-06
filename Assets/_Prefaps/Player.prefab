@@ -31,6 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5243642013205421292}
   - {fileID: 8070347481160261807}
   - {fileID: 8632688017564240565}
   - {fileID: 2697951907197901839}
@@ -66,6 +67,56 @@ MonoBehaviour:
   SyncParent: 0
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 0
+--- !u!1 &1740837420998260607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5243642013205421292}
+  - component: {fileID: 6596117254951333043}
+  m_Layer: 0
+  m_Name: HandSocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5243642013205421292
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740837420998260607}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5313577277598494850}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6596117254951333043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740837420998260607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c20abe6fb4f8d42a1d02e2f49f9b7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ToolController
+  interactionPoint: {fileID: 5243642013205421292}
+  interactionDistance: 2
+  interactionMask:
+    serializedVersion: 2
+    m_Bits: 256
+  materialID: 0
 --- !u!1 &2078245250070149564
 GameObject:
   m_ObjectHideFlags: 0
@@ -82,6 +133,7 @@ GameObject:
   - component: {fileID: 3379766666839365238}
   - component: {fileID: 3729248011953786623}
   - component: {fileID: 8139463485393180080}
+  - component: {fileID: 5251977264190121136}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -128,6 +180,7 @@ MonoBehaviour:
   - {fileID: -2312486029109277121}
   - {fileID: 3729248011953786623}
   - {fileID: 8139463485393180080}
+  - {fileID: 5251977264190121136}
   - {fileID: 8060447613214059757}
   - {fileID: 7378652804369317267}
   - {fileID: 2125899993509433969}
@@ -235,6 +288,20 @@ MonoBehaviour:
   _HeldItem: {fileID: 0}
   playerController: {fileID: 9036670199907900829}
   inputVector: {x: 0, y: 0}
+--- !u!114 &5251977264190121136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078245250070149564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c7e05978b97a348a046318a5f3217b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WallPainter
+  tool: {fileID: 6596117254951333043}
+  paintSpeed: 2
 --- !u!1 &3614978916530718278
 GameObject:
   m_ObjectHideFlags: 0

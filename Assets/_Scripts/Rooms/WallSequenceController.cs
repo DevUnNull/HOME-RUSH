@@ -1,76 +1,70 @@
+using Fusion;
 using UnityEngine;
 
-public class WallSequenceController : MonoBehaviour
+public class NetworkWallSequence : NetworkBehaviour
 {
-    public WallVisual[] walls;
+    [Networked]
+    public int CurrentIndex { get; set; }
 
-    int currentIndex = 0;
+    [Networked]
+    public bool RoomCompleted { get; set; }
 
-    public bool roomCompleted;
-    void Awake()
+    public NetworkWallVisual[] walls;
+
+    public override void Spawned()
     {
-        foreach (WallVisual wall in walls)
+        if (Object.HasStateAuthority)
         {
-            wall.sequenceController = this;
+            CurrentIndex = 0;
+            RoomCompleted = false;
         }
 
-        // Auto-attach WallGroup component if not present in the scene
-        if (GetComponent<WallGroup>() == null)
+        foreach (NetworkWallVisual wall in walls)
         {
-            WallGroup group = gameObject.AddComponent<WallGroup>();
-            group.sequenceController = this;
+            if (wall != null)
+                wall.sequenceController = this;
         }
     }
-    public WallVisual CurrentWall
+
+    public NetworkWallVisual CurrentWall
     {
         get
         {
-            if (currentIndex >= walls.Length)
+            if (Object == null)
+            {
+                Debug.LogWarning("NetworkWallSequence.CurrentWall: Object is null (not spawned yet)");
+                return null;
+            }
+
+            if (CurrentIndex >= walls.Length)
                 return null;
 
-            return walls[currentIndex];
+            return walls[CurrentIndex];
         }
     }
 
-    public bool CanPaint(WallVisual wall)
+    public bool CanPaint(NetworkWallVisual wall)
     {
         return wall == CurrentWall;
     }
 
-    public void RecalculateCurrentIndex()
+    public void CheckProgress()
     {
-        currentIndex = 0;
-        roomCompleted = false;
+        if (!Object.HasStateAuthority)
+            return;
+
+        RoomCompleted = false;
 
         for (int i = 0; i < walls.Length; i++)
         {
-            if (!walls[i].completed)
+            if (walls[i] == null || !walls[i].Completed)
             {
-                currentIndex = i;
+                CurrentIndex = i;
                 return;
             }
         }
 
-        currentIndex = walls.Length;
-        roomCompleted = true;
-        Debug.Log("ROOM COMPLETE");
-    }
-
-    public void CheckProgress()
-    {
-        RecalculateCurrentIndex();
-    }
-
-    // RESET TOÀN BỘ
-    public void ResetSequence()
-    {
-        foreach (WallVisual wall in walls)
-        {
-            wall.ResetWall();
-        }
-
-        RecalculateCurrentIndex();
-
-        Debug.Log("SEQUENCE RESET");
+        CurrentIndex = walls.Length;
+        RoomCompleted = true;
     }
 }
