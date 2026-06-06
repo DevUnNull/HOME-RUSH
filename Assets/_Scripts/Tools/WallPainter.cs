@@ -86,7 +86,7 @@ public class NetworkWallPainter : NetworkBehaviour
     }
 
     [Rpc(RpcSources.InputAuthority,
-         RpcTargets.AllClients)]
+         RpcTargets.All)]
     void RPC_PaintWall(
         NetworkId wallId,
         Color color)
