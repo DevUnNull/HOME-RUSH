@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 5251977264190121136}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -234,6 +234,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   playerMoveSpeed: 5
   gravity: 3
+  normalAcceleration: 25
+  paintAcceleration: 2
+  _IsOnPaint: 0
 --- !u!143 &3379766666839365238
 CharacterController:
   m_ObjectHideFlags: 0

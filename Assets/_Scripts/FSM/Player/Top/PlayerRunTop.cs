@@ -14,9 +14,9 @@ public class PlayerRunTop : State
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-
         if (((PlayerTopEntity)entity).inputActions.Player.Hold.WasPressedThisFrame())
         {
+            Debug.Log("BBB");
             var targets = ((PlayerTopEntity)entity).playerController.playerFieldOfView.visibleOrderedTargets;
             if (targets != null && targets.Count > 0)
             {
