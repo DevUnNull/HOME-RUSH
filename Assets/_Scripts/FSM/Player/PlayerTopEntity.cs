@@ -87,6 +87,7 @@ public class PlayerTopEntity : Entity
             HeldItem.GetComponent<NetworkTransform>().enabled = false;
             HeldItem.transform.SetParent(playerController.playerHand);
             HeldItem.transform.localPosition = Vector3.zero;
+            HeldItem.transform.localRotation = Quaternion.identity;
         }
         else
         {

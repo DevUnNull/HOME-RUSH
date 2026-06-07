@@ -17,6 +17,15 @@ public class PlayerHoldTop : State
         wantThrow = false;
         target = ((PlayerTopEntity)entity).playerController.playerFieldOfView.visibleOrderedTargets[0];
         ((PlayerTopEntity)entity).PickUpItem(target.GetComponent<NetworkObject>());
+
+        PaintCan paintCan = target.GetComponentInChildren<PaintCan>();
+        if (paintCan != null)
+        {
+            if (paintCan.Object.HasStateAuthority)
+            {
+                paintCan.hasAlreadySpilled = false;
+            }
+        }
     }
 
     public override void UpdateLogic()
