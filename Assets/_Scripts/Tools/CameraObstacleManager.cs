@@ -25,6 +25,13 @@ public class CameraObstacleManager : MonoBehaviour
     [Tooltip("Vẽ raycast debug trong Scene view để dễ kiểm tra logic.")]
     public bool debugRay = false;
 
+    [Header("Ray Offset Settings")]
+    [Tooltip("Hạ điểm xuất phát (camera origin) xuống theo Y.")]
+    public float originYOffset = -0.1f;
+
+    [Tooltip("Hạ điểm đích (player target) xuống theo Y.")]
+    public float targetYOffset = -0.5f;
+
     [Tooltip("In log chi tiết mỗi lần raycast để debug.")]
     public bool debugLogs = false;
 
@@ -72,8 +79,8 @@ public class CameraObstacleManager : MonoBehaviour
 
         currentlyInTheWay.Clear();
 
-        Vector3 origin = camera.transform.position;
-        Vector3 targetPosition = player.position;
+        Vector3 origin = camera.transform.position + Vector3.up * originYOffset;
+        Vector3 targetPosition = player.position + Vector3.up * targetYOffset;
         Vector3 direction = targetPosition - origin;
         float distance = direction.magnitude;
 
