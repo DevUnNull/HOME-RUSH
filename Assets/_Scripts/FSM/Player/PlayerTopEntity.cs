@@ -62,6 +62,23 @@ public class PlayerTopEntity : Entity
         HeldItem = null;
     }
 
+    public void ThrowItem(NetworkObject targetNetObj)
+    {
+        var rb = targetNetObj.GetComponent<Rigidbody>();
+
+        targetNetObj.transform.SetParent(null);
+
+        var nt = targetNetObj.GetComponent<NetworkTransform>();
+        nt.enabled = false;
+
+        rb.isKinematic = false;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        Vector3 throwDir = (playerController.playerRotation.transform.forward + Vector3.up).normalized;
+        rb.AddForce(throwDir * 30f, ForceMode.Impulse);
+
+        HeldItem = null;
+    }
+
     public void OnHeldItemChanged()
     {
         if (HeldItem != null)
@@ -70,6 +87,7 @@ public class PlayerTopEntity : Entity
             HeldItem.GetComponent<NetworkTransform>().enabled = false;
             HeldItem.transform.SetParent(playerController.playerHand);
             HeldItem.transform.localPosition = Vector3.zero;
+            HeldItem.transform.localRotation = Quaternion.identity;
         }
         else
         {
