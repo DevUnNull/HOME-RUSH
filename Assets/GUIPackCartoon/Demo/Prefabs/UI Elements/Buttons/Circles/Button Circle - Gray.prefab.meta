@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ec5f3cc88155f4c50b29d58b8403a674
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 48850
+  packageName: Cartoon GUI Pack
+  packageVersion: 2.0.5
+  assetPath: Assets/GUIPackCartoon/Demo/Prefabs/UI Elements/Buttons/Circles/Button
+    Circle - Gray.prefab
+  uploadId: 769476

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8fac52a9cc687489583020a8fb3096df
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 48850
+  packageName: Cartoon GUI Pack
+  packageVersion: 2.0.5
+  assetPath: Assets/GUIPackCartoon/Demo/Prefabs/UI Elements/Slider/Slider.prefab
+  uploadId: 769476
