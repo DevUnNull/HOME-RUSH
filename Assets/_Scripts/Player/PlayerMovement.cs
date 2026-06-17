@@ -56,7 +56,9 @@ public class PlayerMovement : NetworkBehaviour
 
     private void HandleMovement(Vector2 moveVec)
     {
-        Vector3 targetHorizontalMove = (transform.right * moveVec.x + transform.forward * moveVec.y).normalized * playerMoveSpeed;
+        Vector2 rotatedInput = RotateInputByCamera(moveVec);
+
+        Vector3 targetHorizontalMove = (transform.right * rotatedInput.x + transform.forward * rotatedInput.y).normalized * playerMoveSpeed;
 
         float currentAcceleration = IsOnPaint ? paintAcceleration : normalAcceleration;
 
@@ -65,5 +67,27 @@ public class PlayerMovement : NetworkBehaviour
         Vector3 finalMove = currentHorizontalVelocity + (Vector3.down * gravity);
 
         characterController.Move(finalMove * Runner.DeltaTime);
+    }
+
+    private Vector2 RotateInputByCamera(Vector2 input)
+    {
+        if (CameraManager.Instance == null) return input;
+
+        switch (CameraManager.Instance.CurrentCameraDirection)
+        {
+            case CameraDirection.Left:
+
+                return new Vector2(input.y, -input.x);
+
+            case CameraDirection.Down:
+                return new Vector2(-input.x, -input.y);
+
+            case CameraDirection.Right:
+                return new Vector2(-input.y, input.x);
+
+            case CameraDirection.Up:
+            default:
+                return input;
+        }
     }
 }

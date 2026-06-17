@@ -30,6 +30,19 @@ public class PlayerHoldTop : State
     {
         base.UpdateLogic();
 
+        if (((PlayerTopEntity)entity).inputActions.Player.RotateCamera.WasPressedThisFrame())
+        {
+            float rotateValue = ((PlayerTopEntity)entity).inputActions.Player.RotateCamera.ReadValue<float>();
+            if (rotateValue > 0)
+            {
+                CameraManager.Instance.ChangeCameraDirection(Rotation.Right);
+            }
+            else if (rotateValue < 0)
+            {
+                CameraManager.Instance.ChangeCameraDirection(Rotation.Left);
+            }
+        }
+
         if (((PlayerTopEntity)entity).inputActions.Player.Throw.WasPressedThisFrame())
         {
             wantThrow = true;

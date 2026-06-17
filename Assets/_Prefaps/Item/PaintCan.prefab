@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 820589032287688405}
   - component: {fileID: 3607387567447888901}
   - component: {fileID: 3287041312659546544}
+  - component: {fileID: 7523773774479252439}
   m_Layer: 7
   m_Name: PaintCan
   m_TagString: Item
@@ -196,6 +197,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PaintCan
   _hasAlreadySpilled: 0
   paintLiquidPrefab: {fileID: 7962017719838923273, guid: 930c12c7e06c86b49b70ee636d1a64b7, type: 3}
+--- !u!114 &7523773774479252439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295627510838621431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ae13c44567975469a1263af5a274c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  itemType: 0
 --- !u!1 &4118036331504606052
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +221,7 @@ GameObject:
   - component: {fileID: 7347180280361436710}
   - component: {fileID: 4593015303689810109}
   - component: {fileID: 3355604046780297240}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Liquit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
