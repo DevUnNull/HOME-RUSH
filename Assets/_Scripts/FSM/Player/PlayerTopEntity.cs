@@ -6,6 +6,9 @@ public class PlayerTopEntity : Entity
     [Networked, OnChangedRender(nameof(OnHeldItemChanged))]
     public NetworkObject HeldItem { get; set; }
 
+    [Networked]
+    public NetworkBool ReleaseWithThrow { get; set; }
+
     public PlayerController playerController;
 
     public PlayerRunTop runTopState;
@@ -15,90 +18,155 @@ public class PlayerTopEntity : Entity
     public Vector2 inputVector;
     public PlayerInput inputActions;
 
+    private NetworkObject _lastAttachedItem;
+    private NetworkObject _pendingPickup;
+    private bool _pendingRelease;
+    private bool _pendingReleaseThrow;
+    private bool _releaseFlagPendingClear;
+
     public override void Spawned()
     {
         base.Spawned();
-        if (!HasStateAuthority) return;
-
-        inputActions = new PlayerInput();
-        inputActions.Enable();
 
         playerController = GetComponent<PlayerController>();
-        fsm = new FSM();
 
-        runTopState = new PlayerRunTop(fsm, this);
-        idleTopState = new PlayerIdleTop(fsm, this);
-        holdTopState = new PlayerHoldTop(fsm, this);
+        if (HasStateAuthority)
+        {
+            inputActions = new PlayerInput();
+            inputActions.Enable();
 
-        fsm.Init(idleTopState);
+            fsm = new FSM();
+
+            runTopState = new PlayerRunTop(fsm, this);
+            idleTopState = new PlayerIdleTop(fsm, this);
+            holdTopState = new PlayerHoldTop(fsm, this);
+
+            fsm.Init(idleTopState);
+        }
+
+        OnHeldItemChanged();
     }
 
-    protected override void Update()
+    public override void Render()
     {
-        base.Update();
+        base.Render();
 
         if (!HasStateAuthority) return;
 
         inputVector = inputActions.Player.WASD.ReadValue<Vector2>();
     }
 
+    public override void FixedUpdateNetwork()
+    {
+        base.FixedUpdateNetwork();
+
+        if (!HasStateAuthority) return;
+
+        if (_pendingPickup != null)
+        {
+            if (!_pendingPickup.HasStateAuthority)
+            {
+                _pendingPickup.RequestStateAuthority();
+                return;
+            }
+
+            ReleaseWithThrow = false;
+            HeldItem = _pendingPickup;
+            _pendingPickup = null;
+        }
+
+        if (_pendingRelease && HeldItem != null)
+        {
+            ReleaseWithThrow = _pendingReleaseThrow;
+            HeldItem = null;
+            _pendingRelease = false;
+            _pendingReleaseThrow = false;
+            _releaseFlagPendingClear = true;
+        }
+        else if (_releaseFlagPendingClear)
+        {
+            ReleaseWithThrow = false;
+            _releaseFlagPendingClear = false;
+        }
+    }
+
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        inputActions.Disable();
+        if (inputActions != null)
+        {
+            inputActions.Disable();
+        }
+
         base.Despawned(runner, hasState);
     }
 
-    public void PickUpItem(NetworkObject targetNetObj)
+    public void QueuePickup(NetworkObject targetNetObj)
     {
-        if (!targetNetObj.HasStateAuthority)
-        {
-            targetNetObj.RequestStateAuthority();
-        }
-        HeldItem = targetNetObj;
+        if (!HasStateAuthority) return;
+
+        _pendingPickup = targetNetObj;
     }
 
-    public void DropItem(NetworkObject targetNetObj)
+    public void QueueRelease(bool throwItem)
     {
-        HeldItem = null;
-    }
+        if (!HasStateAuthority) return;
 
-    public void ThrowItem(NetworkObject targetNetObj)
-    {
-        var rb = targetNetObj.GetComponent<Rigidbody>();
-
-        targetNetObj.transform.SetParent(null);
-
-        var nt = targetNetObj.GetComponent<NetworkTransform>();
-        nt.enabled = false;
-
-        rb.isKinematic = false;
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        Vector3 throwDir = (playerController.playerRotation.transform.forward + Vector3.up).normalized;
-        rb.AddForce(throwDir * 30f, ForceMode.Impulse);
-
-        HeldItem = null;
+        _pendingRelease = true;
+        _pendingReleaseThrow = throwItem;
     }
 
     public void OnHeldItemChanged()
     {
         if (HeldItem != null)
         {
-            HeldItem.GetComponent<Rigidbody>().isKinematic = true;
-            HeldItem.GetComponent<NetworkTransform>().enabled = false;
-            HeldItem.transform.SetParent(playerController.playerHand);
-            HeldItem.transform.localPosition = Vector3.zero;
-            HeldItem.transform.localRotation = Quaternion.identity;
+            AttachItemToHand(HeldItem);
+            return;
         }
-        else
+
+        if (_lastAttachedItem != null)
         {
-            if (playerController.playerHand.childCount > 0)
-            {
-                Transform itemTransform = playerController.playerHand.GetChild(0);
-                itemTransform.SetParent(null);
-                itemTransform.GetComponent<Rigidbody>().isKinematic = false;
-                itemTransform.GetComponent<NetworkTransform>().enabled = true;
-                itemTransform.GetComponent<NetworkTransform>().Teleport(itemTransform.position, itemTransform.rotation);
-            }
+            ReleaseItem(_lastAttachedItem, ReleaseWithThrow);
+            _lastAttachedItem = null;
+        }
+    }
+
+    private void AttachItemToHand(NetworkObject item)
+    {
+        _lastAttachedItem = item;
+
+        var rb = item.GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+
+        var nt = item.GetComponent<NetworkTransform>();
+        if (nt != null)
+        {
+            nt.enabled = false;
+        }
+
+        item.transform.SetParent(playerController.playerHand);
+        item.transform.localPosition = Vector3.zero;
+        item.transform.localRotation = Quaternion.identity;
+    }
+
+    private void ReleaseItem(NetworkObject item, bool throwItem)
+    {
+        item.transform.SetParent(null);
+
+        var rb = item.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+
+        var nt = item.GetComponent<NetworkTransform>();
+        if (nt != null)
+        {
+            nt.enabled = true;
+            nt.Teleport(item.transform.position, item.transform.rotation);
+        }
+
+        if (throwItem && item.HasStateAuthority)
+        {
+            Vector3 throwDir = (playerController.playerRotation.transform.forward + Vector3.up).normalized;
+            rb.AddForce(throwDir * 30f, ForceMode.Impulse);
         }
     }
 }

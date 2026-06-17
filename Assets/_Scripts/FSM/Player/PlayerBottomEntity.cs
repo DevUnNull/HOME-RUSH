@@ -27,9 +27,9 @@ public class PlayerBottomEntity : Entity
         fsm.Init(idleBottomState);
     }
 
-    protected override void Update()
+    public override void Render()
     {
-        base.Update();
+        base.Render();
 
         if (!HasStateAuthority) return;
 

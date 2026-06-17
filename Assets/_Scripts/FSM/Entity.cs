@@ -5,8 +5,9 @@ public class Entity : NetworkBehaviour
 {
     protected FSM fsm;
 
-    protected virtual void Update()
+    public override void Render()
     {
+        base.Render();
         if (fsm == null || fsm.currentState == null) return;
 
         fsm.currentState.UpdateLogic();
@@ -15,7 +16,9 @@ public class Entity : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        
+
+        if (fsm == null || fsm.currentState == null) return;
+
         fsm.currentState.UpdatePhysics();
     }
 }

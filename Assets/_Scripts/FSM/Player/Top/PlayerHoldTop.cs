@@ -14,17 +14,15 @@ public class PlayerHoldTop : State
     {
         base.EnterState();
         if (!((PlayerTopEntity)entity).HasStateAuthority) return;
+
         wantThrow = false;
         target = ((PlayerTopEntity)entity).playerController.playerFieldOfView.visibleOrderedTargets[0];
-        ((PlayerTopEntity)entity).PickUpItem(target.GetComponent<NetworkObject>());
+        ((PlayerTopEntity)entity).QueuePickup(target.GetComponent<NetworkObject>());
 
         PaintCan paintCan = target.GetComponentInChildren<PaintCan>();
-        if (paintCan != null)
+        if (paintCan != null && paintCan.Object.HasStateAuthority)
         {
-            if (paintCan.Object.HasStateAuthority)
-            {
-                paintCan.hasAlreadySpilled = false;
-            }
+            paintCan.hasAlreadySpilled = false;
         }
     }
 
@@ -51,14 +49,7 @@ public class PlayerHoldTop : State
     {
         base.ExitState();
         if (!((PlayerTopEntity)entity).HasStateAuthority) return;
-        
-        if (wantThrow)
-        {
-            ((PlayerTopEntity)entity).ThrowItem(target.GetComponent<NetworkObject>());
 
-        } else
-        {
-            ((PlayerTopEntity)entity).DropItem(target.GetComponent<NetworkObject>());
-        }
+        ((PlayerTopEntity)entity).QueueRelease(wantThrow);
     }
 }
