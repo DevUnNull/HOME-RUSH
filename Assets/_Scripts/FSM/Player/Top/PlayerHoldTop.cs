@@ -32,6 +32,11 @@ public class PlayerHoldTop : State
 
         if (((PlayerTopEntity)entity).inputActions.Player.RotateCamera.WasPressedThisFrame())
         {
+            if (target.GetComponent<Item>().itemType != ItemType.BluePrint)
+            {
+                return; 
+            }
+
             float rotateValue = ((PlayerTopEntity)entity).inputActions.Player.RotateCamera.ReadValue<float>();
             if (rotateValue > 0)
             {
