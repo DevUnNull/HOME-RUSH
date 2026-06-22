@@ -22,7 +22,8 @@ public class PlayerTopEntity : Entity
     private NetworkObject _pendingPickup;
     private bool _pendingRelease;
     private bool _pendingReleaseThrow;
-    private bool _releaseFlagPendingClear;
+
+    private float throwingForce = 100f;
 
     public override void Spawned()
     {
@@ -81,12 +82,6 @@ public class PlayerTopEntity : Entity
             HeldItem = null;
             _pendingRelease = false;
             _pendingReleaseThrow = false;
-            _releaseFlagPendingClear = true;
-        }
-        else if (_releaseFlagPendingClear)
-        {
-            ReleaseWithThrow = false;
-            _releaseFlagPendingClear = false;
         }
     }
 
@@ -166,7 +161,7 @@ public class PlayerTopEntity : Entity
         if (throwItem && item.HasStateAuthority)
         {
             Vector3 throwDir = (playerController.playerRotation.transform.forward + Vector3.up).normalized;
-            rb.AddForce(throwDir * 30f, ForceMode.Impulse);
+            rb.AddForce(throwDir * throwingForce, ForceMode.Impulse);
         }
     }
 }
