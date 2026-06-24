@@ -43,6 +43,35 @@ public class NetworkWallSequence : NetworkBehaviour
         }
     }
 
+    public NetworkWallVisual GetWallToErase()
+    {
+        if (Object == null) return null;
+
+        // Nếu cả phòng đã xong, ta xóa bức tường cuối cùng
+        if (RoomCompleted && walls.Length > 0)
+        {
+            return walls[walls.Length - 1];
+        }
+
+        if (CurrentIndex >= walls.Length) return null;
+
+        var currentWall = walls[CurrentIndex];
+
+        // Nếu bức tường hiện tại đã tô được 1 ít (Progress > 0), ta xóa nó
+        if (currentWall != null && currentWall.Progress > 0)
+        {
+            return currentWall;
+        }
+
+        // Nếu bức tường hiện tại chưa tô gì (Progress == 0) và không phải bức đầu tiên, ta lùi lại xóa bức trước đó
+        if (CurrentIndex > 0)
+        {
+            return walls[CurrentIndex - 1];
+        }
+
+        return currentWall;
+    }
+
     public bool CanPaint(NetworkWallVisual wall)
     {
         return wall == CurrentWall;

@@ -52,6 +52,24 @@ public class NetworkWallVisual : NetworkBehaviour
         }
     }
 
+    public void RemoveProgress(float amount)
+    {
+        if (!Object.HasStateAuthority)
+            return;
+
+        Progress -= amount;
+
+        if (Progress <= 0f)
+        {
+            Progress = 0f;
+        }
+
+        if (Progress < 1f && Completed)
+        {
+            Completed = false;
+        }
+    }
+
     public void SetPaintColor(Color color)
     {
         if (!Object.HasStateAuthority)
