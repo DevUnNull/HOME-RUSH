@@ -172,6 +172,7 @@ GameObject:
   - component: {fileID: 3729248011953786623}
   - component: {fileID: 8139463485393180080}
   - component: {fileID: 5251977264190121136}
+  - component: {fileID: 8615978489348599739}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -220,6 +221,7 @@ MonoBehaviour:
   - {fileID: 3729248011953786623}
   - {fileID: 8139463485393180080}
   - {fileID: 5251977264190121136}
+  - {fileID: 8615978489348599739}
   - {fileID: 8060447613214059757}
   - {fileID: 7378652804369317267}
   - {fileID: 2125899993509433969}
@@ -328,6 +330,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerTopEntity
   _HeldItem: {fileID: 0}
+  _ReleaseWithThrow:
+    _value: 0
   playerController: {fileID: 9036670199907900829}
   inputVector: {x: 0, y: 0}
 --- !u!114 &5251977264190121136
@@ -344,6 +348,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WallPainter
   tool: {fileID: 6596117254951333043}
   paintSpeed: 2
+  paintKey: 19
+  eraseKey: 32
+--- !u!114 &8615978489348599739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078245250070149564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3912418a370ca43af92f6d74123a303c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NetworkMopCleaner
+  cleanKey: 19
+  cleanRadius: 1.5
+  spillLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &3614978916530718278
 GameObject:
   m_ObjectHideFlags: 0
