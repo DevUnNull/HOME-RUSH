@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 using GameSystems.Time.Managers;
 using GameSystems.Time.Models;
@@ -21,9 +22,17 @@ namespace GameSystems.Time.UI
         [Header("Stars")]
         [SerializeField] private GameObject[] starIcons;
 
+        [Header("Buttons")]
+        [SerializeField] private UnityEngine.UI.Button exitButton;
+
         private void Start()
         {
             if (resultPanel != null) resultPanel.SetActive(false);
+
+            if (exitButton != null)
+            {
+                exitButton.onClick.AddListener(OnExitButtonClicked);
+            }
         }
 
         private void Update()
@@ -84,6 +93,18 @@ namespace GameSystems.Time.UI
                     starIcons[i].SetActive(i < result.StarCount);
                 }
             }
+        }
+
+        public void OnExitButtonClicked()
+        {
+            // Ngắt kết nối mạng (Fusion)
+            if (TimeManager.Instance != null && TimeManager.Instance.Runner != null)
+            {
+                TimeManager.Instance.Runner.Shutdown();
+            }
+
+            // Chuyển về Scene mặc định (thường Scene 0 là Lobby / Menu chính)
+            SceneManager.LoadScene(0);
         }
     }
 }

@@ -57,9 +57,9 @@ namespace GameSystems.Time.Managers
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.W)) TestWin();
-            if (Input.GetKeyDown(KeyCode.F)) TestFail();
-            if (Input.GetKeyDown(KeyCode.T)) TestRemove10s();
+            if (Input.GetKeyDown(KeyCode.I)) TestWin();
+            if (Input.GetKeyDown(KeyCode.O)) TestFail();
+            if (Input.GetKeyDown(KeyCode.P)) TestRemove10s();
         }
 
         [ContextMenu("Test: Force Win (Hoàn thành 1/1 objective)")]

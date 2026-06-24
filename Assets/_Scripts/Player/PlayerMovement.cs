@@ -49,6 +49,17 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!HasStateAuthority) return;
 
+        if (GameSystems.Time.Managers.TimeManager.Instance != null)
+        {
+            var state = GameSystems.Time.Managers.TimeManager.Instance.CurrentStateEnum;
+            if (state == GameSystems.Time.Models.LevelState.Completed || state == GameSystems.Time.Models.LevelState.Failed)
+            {
+                // Khi game kết thúc, dừng lại, chỉ áp dụng trọng lực
+                characterController.Move(Vector3.down * gravity * Runner.DeltaTime);
+                return;
+            }
+        }
+
         base.FixedUpdateNetwork();
         HandleMovement(inputVec);
     }
