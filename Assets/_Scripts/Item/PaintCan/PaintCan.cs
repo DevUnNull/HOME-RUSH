@@ -4,6 +4,7 @@ using UnityEngine;
 public class PaintCan : NetworkBehaviour
 {
     [Networked] public bool hasAlreadySpilled { get; set; } = false;
+    [SerializeField] public Color paintColor = Color.blue;
 
     [SerializeField] private GameObject paintLiquidPrefab;
 

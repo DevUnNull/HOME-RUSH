@@ -77,13 +77,21 @@ public class NetworkWallPainter : NetworkBehaviour
             }
         }
 
-        if (PaintColorManager.Instance == null)
+        PlayerTopEntity playerEntity = GetComponentInParent<PlayerTopEntity>();
+        if (playerEntity == null || playerEntity.HeldItem == null)
         {
-            Debug.LogError("NetworkWallPainter.TryPaint: PaintColorManager.Instance is null");
+            Debug.LogWarning("NetworkWallPainter.TryPaint: Not holding any item.");
             return;
         }
 
-        Color selectedColor = PaintColorManager.Instance.currentColor;
+        PaintCan paintCan = playerEntity.HeldItem.GetComponent<PaintCan>();
+        if (paintCan == null)
+        {
+            Debug.LogWarning("NetworkWallPainter.TryPaint: Held item is not a PaintCan.");
+            return;
+        }
+
+        Color selectedColor = paintCan.paintColor;
         Debug.Log($"NetworkWallPainter.TryPaint: selectedColor={selectedColor} wall={wall.name} wallId={wall.Object.Id}");
 
         RPC_PaintWall(
