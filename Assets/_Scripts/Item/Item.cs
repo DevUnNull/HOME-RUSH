@@ -8,5 +8,6 @@ public class Item : MonoBehaviour
 public enum ItemType
 {
     PaintCan,
-    BluePrint
+    BluePrint,
+    Mop
 }

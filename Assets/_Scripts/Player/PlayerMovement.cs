@@ -13,7 +13,8 @@ public class PlayerMovement : NetworkBehaviour
     [Header("Slippery Settings")]
     [SerializeField] private float normalAcceleration = 25f;
     [SerializeField] private float paintAcceleration = 2f;
-    [Networked] public bool IsOnPaint { get; set; } = false;
+    [Networked] public int PaintSpillCount { get; set; } = 0;
+    public bool IsOnPaint => PaintSpillCount > 0;
 
     private CharacterController characterController;
     private PlayerInput inputActions;
