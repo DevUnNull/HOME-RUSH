@@ -1,4 +1,5 @@
 using Fusion;
+using System;
 using UnityEngine;
 
 public class PlayerHoldTop : State
@@ -24,6 +25,15 @@ public class PlayerHoldTop : State
         {
             paintCan.hasAlreadySpilled = false;
         }
+        ((PlayerTopEntity)entity).OnCollidedWithPlayer += OnCollidedWithPlayer;
+    }
+
+    private void OnCollidedWithPlayer()
+    {
+        Debug.Log("Collided with another player while holding an item. Releasing the item.");
+        wantThrow = false;
+        fsm.ChangeState(((PlayerTopEntity)entity).idleTopState);
+        return;
     }
 
     public override void UpdateLogic()
@@ -69,5 +79,6 @@ public class PlayerHoldTop : State
         if (!((PlayerTopEntity)entity).HasStateAuthority) return;
 
         ((PlayerTopEntity)entity).QueueRelease(wantThrow);
+        ((PlayerTopEntity)entity).OnCollidedWithPlayer -= OnCollidedWithPlayer;
     }
 }

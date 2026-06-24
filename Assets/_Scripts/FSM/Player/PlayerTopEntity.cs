@@ -1,4 +1,5 @@
 using Fusion;
+using System;
 using UnityEngine;
 
 public class PlayerTopEntity : Entity
@@ -8,6 +9,8 @@ public class PlayerTopEntity : Entity
 
     [Networked]
     public NetworkBool ReleaseWithThrow { get; set; }
+
+    public event Action OnCollidedWithPlayer;
 
     public PlayerController playerController;
 
@@ -93,6 +96,16 @@ public class PlayerTopEntity : Entity
         }
 
         base.Despawned(runner, hasState);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!HasStateAuthority) return;
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Collided with another player. Invoking OnCollidedWithPlayer event.");
+            OnCollidedWithPlayer?.Invoke();
+        }
     }
 
     public void QueuePickup(NetworkObject targetNetObj)
