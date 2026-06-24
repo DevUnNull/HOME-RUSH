@@ -1268,6 +1268,7 @@ GameObject:
   - component: {fileID: 1675995099}
   - component: {fileID: 1675995098}
   - component: {fileID: 1675995097}
+  - component: {fileID: 1675995101}
   m_Layer: 0
   m_Name: TimeManager
   m_TagString: Untagged
@@ -1339,6 +1340,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1675995101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1675995096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6684b87331b4cb2b27d90aadf6171c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameSystems.Time.UI.ResultScreen
+  resultPanel: {fileID: 0}
+  titleText: {fileID: 0}
+  remainingTimeText: {fileID: 0}
+  totalTimeText: {fileID: 0}
+  completionPercentageText: {fileID: 0}
+  finalScoreText: {fileID: 0}
+  starIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1693174723
 GameObject:
   m_ObjectHideFlags: 0

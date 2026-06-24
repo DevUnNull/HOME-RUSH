@@ -45,13 +45,47 @@ namespace GameSystems.Time.Managers
                 if (TimeManager.Instance.HasStateAuthority)
                 {
                     TimeManager.Instance.StartLevel();
-                    Debug.Log("TimeStarter: Level started.");
+                    Debug.Log("TimeStarter: Level started. Nhấn W để thắng, F để thua, T để trừ 10s.");
                 }
             }
             else
             {
                 // Try again if not ready
                 Invoke(nameof(StartTimer), 0.5f);
+            }
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.W)) TestWin();
+            if (Input.GetKeyDown(KeyCode.F)) TestFail();
+            if (Input.GetKeyDown(KeyCode.T)) TestRemove10s();
+        }
+
+        [ContextMenu("Test: Force Win (Hoàn thành 1/1 objective)")]
+        public void TestWin()
+        {
+            if (TimeManager.Instance != null && TimeManager.Instance.HasStateAuthority)
+            {
+                TimeManager.Instance.CompleteLevel(1, 1);
+            }
+        }
+
+        [ContextMenu("Test: Force Fail")]
+        public void TestFail()
+        {
+            if (TimeManager.Instance != null && TimeManager.Instance.HasStateAuthority)
+            {
+                TimeManager.Instance.FailLevel();
+            }
+        }
+
+        [ContextMenu("Test: Trừ 10s")]
+        public void TestRemove10s()
+        {
+            if (TimeManager.Instance != null && TimeManager.Instance.HasStateAuthority)
+            {
+                TimeManager.Instance.RemoveTime(10f);
             }
         }
     }
