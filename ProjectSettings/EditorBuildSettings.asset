@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/Level.unity
     guid: 7906958b6a8afcf48a6d626392cc82ec
+  - enabled: 1
+    path: Assets/_Scenes/BluePrint.unity
+    guid: 7568940bc81df4591b6d1e5a5cced142
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
