@@ -13,6 +13,8 @@ public class LobbyManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     [SerializeField] private TextMeshProUGUI roomIdText;
     [SerializeField] private TextMeshProUGUI[] playerReadyTexts;
 
+    [SerializeField] private int sceneIndex = 3;
+
     public List<LobbyPlayerState> playersInLobby = new();
 
     private void Awake()
@@ -110,7 +112,7 @@ public class LobbyManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
                 return;
             }
 
-            Runner.LoadScene(SceneRef.FromIndex(2));
+            Runner.LoadScene(SceneRef.FromIndex(sceneIndex));
         }
     }
 }
