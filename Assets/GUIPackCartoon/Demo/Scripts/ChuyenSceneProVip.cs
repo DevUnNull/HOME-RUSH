@@ -10,6 +10,6 @@ public class ChuyenSceneProVip : MonoBehaviour
 
     public void GoToLevel()
     {
-        SceneManager.LoadScene("Level");
+        SceneManager.LoadScene("MainMenuScene");
     }
 }

@@ -13,6 +13,8 @@ public class MatchmakingManager : MonoBehaviour
     [SerializeField] private TMP_InputField roomCodeInput;
     [SerializeField] private TextMeshProUGUI warningText;
 
+    [SerializeField] private int sceneIndex = 2;
+
 
     private NetworkRunner _currentRunner;
 
@@ -59,7 +61,7 @@ public class MatchmakingManager : MonoBehaviour
             {
                 return;
             }
-            await _currentRunner.LoadScene(SceneRef.FromIndex(1));
+            await _currentRunner.LoadScene(SceneRef.FromIndex(sceneIndex));
         }
     }
 
