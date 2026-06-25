@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Scenes/Menu.unity
+    guid: 4d7478c8da70fb544a32ef6325263728
+  - enabled: 1
     path: Assets/_Scenes/AA/MainMenuScene.unity
     guid: 82bc370afa1dbd94b87d7e376c019587
   - enabled: 1
@@ -26,9 +29,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/BluePrint.unity
     guid: 7568940bc81df4591b6d1e5a5cced142
-  - enabled: 1
-    path: Assets/_Scenes/Menu.unity
-    guid: 4d7478c8da70fb544a32ef6325263728
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
