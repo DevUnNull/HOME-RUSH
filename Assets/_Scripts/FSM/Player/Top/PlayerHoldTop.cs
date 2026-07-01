@@ -1,6 +1,7 @@
 using Fusion;
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerHoldTop : State
 {
@@ -25,6 +26,9 @@ public class PlayerHoldTop : State
         {
             paintCan.hasAlreadySpilled = false;
         }
+
+        ((PlayerTopEntity)entity).RPC_PlayPickupSound();
+
         ((PlayerTopEntity)entity).OnCollidedWithPlayer += OnCollidedWithPlayer;
     }
 
