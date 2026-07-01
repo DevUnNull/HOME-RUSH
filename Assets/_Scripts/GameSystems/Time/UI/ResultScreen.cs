@@ -75,9 +75,10 @@ namespace GameSystems.Time.UI
 
             if (totalTimeText != null)
             {
-                int min = Mathf.FloorToInt(result.TotalTime / 60f);
-                int sec = Mathf.FloorToInt(result.TotalTime % 60f);
-                totalTimeText.text = string.Format("Total Time: {0:00}:{1:00}", min, sec);
+                float elapsedTime = result.TotalTime - result.RemainingTime;
+                int min = Mathf.FloorToInt(elapsedTime / 60f);
+                int sec = Mathf.FloorToInt(elapsedTime % 60f);
+                totalTimeText.text = string.Format("Completion Time: {0:00}:{1:00}", min, sec);
             }
 
             if (completionPercentageText != null)

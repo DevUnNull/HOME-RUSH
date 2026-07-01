@@ -10684,6 +10684,61 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 375842671}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &384340064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 384340066}
+  - component: {fileID: 384340065}
+  m_Layer: 0
+  m_Name: FinalManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &384340065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384340064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6684b87331b4cb2b27d90aadf6171c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameSystems.Time.UI.ResultScreen
+  resultPanel: {fileID: 753824314}
+  titleText: {fileID: 68493445}
+  remainingTimeText: {fileID: 1011104176}
+  totalTimeText: {fileID: 477117402}
+  completionPercentageText: {fileID: 1970251685}
+  finalScoreText: {fileID: 659814212}
+  starIcons:
+  - {fileID: 2138828285}
+  - {fileID: 1448600610}
+  - {fileID: 192623281}
+  exitButton: {fileID: 1138651286}
+--- !u!4 &384340066
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384340064}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 956.7308, y: 389.78867, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &387387800
 GameObject:
   m_ObjectHideFlags: 0
@@ -29089,7 +29144,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1591536595}
   - {fileID: 343471219}
   - {fileID: 1924888345}
   - {fileID: 1401021788}
@@ -47601,6 +47655,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448600610}
   m_CullTransparentMesh: 1
+--- !u!1 &1451775456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1451775457}
+  m_Layer: 0
+  m_Name: ----------------Manager-----------------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1451775457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451775456}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 956.7308, y: 389.78867, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1455352123 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8921734768337342824, guid: d6042b3bcd0ecb047b1a6940397a11d4, type: 3}
@@ -51455,7 +51540,6 @@ GameObject:
   - component: {fileID: 1591536599}
   - component: {fileID: 1591536598}
   - component: {fileID: 1591536597}
-  - component: {fileID: 1591536596}
   m_Layer: 0
   m_Name: TimeManager
   m_TagString: Untagged
@@ -51472,35 +51556,12 @@ Transform:
   m_GameObject: {fileID: 1591536594}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -960, y: -540, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 907926953}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1591536596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1591536594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a6684b87331b4cb2b27d90aadf6171c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameSystems.Time.UI.ResultScreen
-  resultPanel: {fileID: 753824314}
-  titleText: {fileID: 68493445}
-  remainingTimeText: {fileID: 1011104176}
-  totalTimeText: {fileID: 477117402}
-  completionPercentageText: {fileID: 1970251685}
-  finalScoreText: {fileID: 659814212}
-  starIcons:
-  - {fileID: 2138828285}
-  - {fileID: 1448600610}
-  - {fileID: 192623281}
-  exitButton: {fileID: 1138651286}
 --- !u!114 &1591536597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69029,9 +69090,12 @@ SceneRoots:
   - {fileID: 1256292134}
   - {fileID: 1117687212}
   - {fileID: 315940831}
+  - {fileID: 1451775457}
   - {fileID: 118544886}
   - {fileID: 11174644}
   - {fileID: 837139853}
+  - {fileID: 384340066}
+  - {fileID: 1591536595}
   - {fileID: 968346727}
   - {fileID: 791097070}
   - {fileID: 1156075459}

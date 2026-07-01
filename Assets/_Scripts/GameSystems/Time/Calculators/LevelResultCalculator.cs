@@ -19,8 +19,18 @@ namespace GameSystems.Time.Calculators
             int totalObjectives,
             bool isFailed)
         {
-            bool isCompleted = !isFailed && completedObjectives >= totalObjectives;
-            float completionPercentage = totalObjectives > 0 ? (float)completedObjectives / totalObjectives : 1f;
+            float completionPercentage = 0f;
+            if (GameProgressManager.Instance != null)
+            {
+                completionPercentage = GameProgressManager.Instance.GetTotalProgress();
+            }
+            else
+            {
+                completionPercentage = totalObjectives > 0 ? (float)completedObjectives / totalObjectives : 1f;
+            }
+            
+            // Re-evaluate isCompleted based on the actual percentage from the Progress system
+            bool isCompleted = !isFailed && completionPercentage >= 0.99f;
 
             int starCount = CalculateStars(config, remainingTime, isCompleted);
             int finalScore = CalculateScore(remainingTime, isCompleted, completionPercentage);
