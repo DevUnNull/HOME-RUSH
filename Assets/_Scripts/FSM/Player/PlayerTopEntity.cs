@@ -135,6 +135,11 @@ public class PlayerTopEntity : Entity
         {
             ReleaseItem(_lastAttachedItem, ReleaseWithThrow);
             _lastAttachedItem = null;
+            
+            if (TaskBoardManager.Instance != null)
+            {
+                TaskBoardManager.Instance.CloseTaskBoard();
+            }
         }
     }
 

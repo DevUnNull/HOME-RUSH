@@ -58,6 +58,17 @@ public class PlayerHoldTop : State
             }
         }
 
+        if (((PlayerTopEntity)entity).inputActions.Player.TaskBoard.WasPressedThisFrame())
+        {
+            if (target.GetComponent<Item>().itemType == ItemType.BluePrint)
+            {
+                if (TaskBoardManager.Instance != null)
+                {
+                    TaskBoardManager.Instance.ToggleTaskBoard();
+                }
+            }
+        }
+
         if (((PlayerTopEntity)entity).inputActions.Player.Throw.WasPressedThisFrame())
         {
             wantThrow = true;
