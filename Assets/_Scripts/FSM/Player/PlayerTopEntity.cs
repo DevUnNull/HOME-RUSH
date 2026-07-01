@@ -21,6 +21,10 @@ public class PlayerTopEntity : Entity
     public Vector2 inputVector;
     public PlayerInput inputActions;
 
+    public AudioClip pickupSound;
+    public AudioChannelSO sfx;
+    public AudioSource audioSource;
+
     private NetworkObject _lastAttachedItem;
     private NetworkObject _pendingPickup;
     private bool _pendingRelease;
@@ -47,6 +51,8 @@ public class PlayerTopEntity : Entity
 
             fsm.Init(idleTopState);
         }
+
+
 
         OnHeldItemChanged();
     }
@@ -181,5 +187,11 @@ public class PlayerTopEntity : Entity
             Vector3 throwDir = (playerController.playerRotation.transform.forward + Vector3.up).normalized;
             rb.AddForce(throwDir * throwingForce, ForceMode.Impulse);
         }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_PlayPickupSound()
+    {
+        sfx.TriggerAudio(pickupSound, audioSource);
     }
 }
