@@ -62,6 +62,13 @@ public class PlayerHoldTop : State
             }
         }
 
+        if (((PlayerTopEntity)entity).playerController.playerMovement.IsOnPaint)
+        {
+            wantThrow = false;
+            fsm.ChangeState(((PlayerTopEntity)entity).idleTopState);
+            return;
+        }
+
         if (((PlayerTopEntity)entity).inputActions.Player.TaskBoard.WasPressedThisFrame())
         {
             if (target.GetComponent<Item>().itemType == ItemType.BluePrint)
