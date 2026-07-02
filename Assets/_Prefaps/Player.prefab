@@ -754,5 +754,5 @@ MonoBehaviour:
     m_Bits: 128
   obstacleMasks:
   - serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 328
   visibleOrderedTargets: []
