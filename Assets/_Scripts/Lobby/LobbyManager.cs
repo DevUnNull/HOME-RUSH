@@ -50,8 +50,8 @@ public class LobbyManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 
         UpdateRoomUI();
 
-        Vector3 spawnPosition = new Vector3(2 * (Runner.LocalPlayer.PlayerId - 1), 1, 0);
-        Runner.Spawn(playerStatePrefap.GetComponent<NetworkObject>(), spawnPosition, Quaternion.identity, Runner.LocalPlayer);
+        Vector3 spawnPosition = new Vector3(2 * (Runner.LocalPlayer.PlayerId - 1), 0, 0);
+        Runner.Spawn(playerStatePrefap.GetComponent<NetworkObject>(), spawnPosition, Quaternion.Euler(0,-210f,0), Runner.LocalPlayer);
 
         LobbyPlayerState[] existingPlayers = FindObjectsByType<LobbyPlayerState>(FindObjectsSortMode.None);
         foreach (var player in existingPlayers)

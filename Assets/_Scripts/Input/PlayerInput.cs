@@ -136,6 +136,27 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+<<<<<<< Updated upstream
+=======
+                },
+                {
+                    ""name"": ""TaskBoard"",
+                    ""type"": ""Button"",
+                    ""id"": ""d2b51234-abcd-4e01-89ab-cdef12345678"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeSkin"",
+                    ""type"": ""Button"",
+                    ""id"": ""09a1c610-0b88-4eba-a180-729df24c07cb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+>>>>>>> Stashed changes
                 }
             ],
             ""bindings"": [
@@ -259,6 +280,53 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Ready"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+<<<<<<< Updated upstream
+=======
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a1b2c3d4-e5f6-4a1b-8c2d-e3f4a5b6c7d8"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TaskBoard"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""32036f8c-d3a8-4828-b5eb-f23fb9a567a7"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSkin"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""5fd605ed-7718-45bc-ba40-05441be4ae4f"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSkin"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""218496fe-dcda-499e-984b-07b0c5c7f487"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSkin"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+>>>>>>> Stashed changes
                 }
             ]
         }
@@ -272,6 +340,11 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
         m_Player_RotateCamera = m_Player.FindAction("RotateCamera", throwIfNotFound: true);
         m_Player_Ready = m_Player.FindAction("Ready", throwIfNotFound: true);
+<<<<<<< Updated upstream
+=======
+        m_Player_TaskBoard = m_Player.FindAction("TaskBoard", throwIfNotFound: true);
+        m_Player_ChangeSkin = m_Player.FindAction("ChangeSkin", throwIfNotFound: true);
+>>>>>>> Stashed changes
     }
 
     ~@PlayerInput()
@@ -357,6 +430,11 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Throw;
     private readonly InputAction m_Player_RotateCamera;
     private readonly InputAction m_Player_Ready;
+<<<<<<< Updated upstream
+=======
+    private readonly InputAction m_Player_TaskBoard;
+    private readonly InputAction m_Player_ChangeSkin;
+>>>>>>> Stashed changes
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -389,6 +467,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Ready => m_Wrapper.m_Player_Ready;
         /// <summary>
+<<<<<<< Updated upstream
+=======
+        /// Provides access to the underlying input action "Player/TaskBoard".
+        /// </summary>
+        public InputAction @TaskBoard => m_Wrapper.m_Player_TaskBoard;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ChangeSkin".
+        /// </summary>
+        public InputAction @ChangeSkin => m_Wrapper.m_Player_ChangeSkin;
+        /// <summary>
+>>>>>>> Stashed changes
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -429,6 +518,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Ready.started += instance.OnReady;
             @Ready.performed += instance.OnReady;
             @Ready.canceled += instance.OnReady;
+<<<<<<< Updated upstream
+=======
+            @TaskBoard.started += instance.OnTaskBoard;
+            @TaskBoard.performed += instance.OnTaskBoard;
+            @TaskBoard.canceled += instance.OnTaskBoard;
+            @ChangeSkin.started += instance.OnChangeSkin;
+            @ChangeSkin.performed += instance.OnChangeSkin;
+            @ChangeSkin.canceled += instance.OnChangeSkin;
+>>>>>>> Stashed changes
         }
 
         /// <summary>
@@ -455,6 +553,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Ready.started -= instance.OnReady;
             @Ready.performed -= instance.OnReady;
             @Ready.canceled -= instance.OnReady;
+<<<<<<< Updated upstream
+=======
+            @TaskBoard.started -= instance.OnTaskBoard;
+            @TaskBoard.performed -= instance.OnTaskBoard;
+            @TaskBoard.canceled -= instance.OnTaskBoard;
+            @ChangeSkin.started -= instance.OnChangeSkin;
+            @ChangeSkin.performed -= instance.OnChangeSkin;
+            @ChangeSkin.canceled -= instance.OnChangeSkin;
+>>>>>>> Stashed changes
         }
 
         /// <summary>
@@ -530,5 +637,22 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnReady(InputAction.CallbackContext context);
+<<<<<<< Updated upstream
+=======
+        /// <summary>
+        /// Method invoked when associated input action "TaskBoard" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTaskBoard(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ChangeSkin" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeSkin(InputAction.CallbackContext context);
+>>>>>>> Stashed changes
     }
 }

@@ -50,6 +50,27 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+<<<<<<< Updated upstream
+=======
+                },
+                {
+                    "name": "TaskBoard",
+                    "type": "Button",
+                    "id": "d2b51234-abcd-4e01-89ab-cdef12345678",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeSkin",
+                    "type": "Button",
+                    "id": "09a1c610-0b88-4eba-a180-729df24c07cb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+>>>>>>> Stashed changes
                 }
             ],
             "bindings": [
@@ -173,6 +194,53 @@
                     "action": "Ready",
                     "isComposite": false,
                     "isPartOfComposite": false
+<<<<<<< Updated upstream
+=======
+                },
+                {
+                    "name": "",
+                    "id": "a1b2c3d4-e5f6-4a1b-8c2d-e3f4a5b6c7d8",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TaskBoard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "32036f8c-d3a8-4828-b5eb-f23fb9a567a7",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeSkin",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "5fd605ed-7718-45bc-ba40-05441be4ae4f",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeSkin",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "218496fe-dcda-499e-984b-07b0c5c7f487",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeSkin",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+>>>>>>> Stashed changes
                 }
             ]
         }
