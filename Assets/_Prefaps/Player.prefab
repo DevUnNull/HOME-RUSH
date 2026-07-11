@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 8941296175945328412}
   - component: {fileID: 6503110443925719843}
   - component: {fileID: 5738631902114706607}
+  - component: {fileID: 6414903077330628811}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -226,6 +227,7 @@ MonoBehaviour:
   - {fileID: 8139463485393180080}
   - {fileID: 5251977264190121136}
   - {fileID: 6503110443925719843}
+  - {fileID: 6414903077330628811}
   - {fileID: 8060447613214059757}
   - {fileID: 7378652804369317267}
   - {fileID: 2125899993509433969}
@@ -521,6 +523,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6414903077330628811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078245250070149564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a0f3c49cc65b954ab24d1cb47b5c83d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoadPlayerSkin
+  playerMeshRender: {fileID: 3786870956159309478}
 --- !u!1 &3614978916530718278
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,6 +849,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a2441e12df75470a8506cd6e91cada2, type: 3}
+--- !u!137 &3786870956159309478 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -878858825911514877, guid: 7a2441e12df75470a8506cd6e91cada2, type: 3}
+  m_PrefabInstance: {fileID: 5134105360999473061}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4668747247602645070 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7a2441e12df75470a8506cd6e91cada2, type: 3}

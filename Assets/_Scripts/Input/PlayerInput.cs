@@ -145,6 +145,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeSkin"",
+                    ""type"": ""Button"",
+                    ""id"": ""36f0b14f-3303-4174-8d14-c74480df1cb7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -279,6 +288,39 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""TaskBoard"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""312f7f47-6dc2-4af5-b36b-8b522d46fe92"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSkin"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""399a398a-aa45-452d-be89-16fb9f8d167c"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSkin"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""b20b593d-0b9f-4c30-84f8-6496b4a4feff"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSkin"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -293,6 +335,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_RotateCamera = m_Player.FindAction("RotateCamera", throwIfNotFound: true);
         m_Player_Ready = m_Player.FindAction("Ready", throwIfNotFound: true);
         m_Player_TaskBoard = m_Player.FindAction("TaskBoard", throwIfNotFound: true);
+        m_Player_ChangeSkin = m_Player.FindAction("ChangeSkin", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -379,6 +422,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_RotateCamera;
     private readonly InputAction m_Player_Ready;
     private readonly InputAction m_Player_TaskBoard;
+    private readonly InputAction m_Player_ChangeSkin;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -414,6 +458,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/TaskBoard".
         /// </summary>
         public InputAction @TaskBoard => m_Wrapper.m_Player_TaskBoard;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ChangeSkin".
+        /// </summary>
+        public InputAction @ChangeSkin => m_Wrapper.m_Player_ChangeSkin;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -458,6 +506,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @TaskBoard.started += instance.OnTaskBoard;
             @TaskBoard.performed += instance.OnTaskBoard;
             @TaskBoard.canceled += instance.OnTaskBoard;
+            @ChangeSkin.started += instance.OnChangeSkin;
+            @ChangeSkin.performed += instance.OnChangeSkin;
+            @ChangeSkin.canceled += instance.OnChangeSkin;
         }
 
         /// <summary>
@@ -487,6 +538,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @TaskBoard.started -= instance.OnTaskBoard;
             @TaskBoard.performed -= instance.OnTaskBoard;
             @TaskBoard.canceled -= instance.OnTaskBoard;
+            @ChangeSkin.started -= instance.OnChangeSkin;
+            @ChangeSkin.performed -= instance.OnChangeSkin;
+            @ChangeSkin.canceled -= instance.OnChangeSkin;
         }
 
         /// <summary>
@@ -569,5 +623,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTaskBoard(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ChangeSkin" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeSkin(InputAction.CallbackContext context);
     }
 }

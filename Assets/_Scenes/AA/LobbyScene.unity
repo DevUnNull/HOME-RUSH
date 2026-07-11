@@ -1826,7 +1826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3057a59d7c16a84bad5751154163d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyManager
-  playerStatePrefap: {fileID: 1121725578413347554, guid: 57dec9cda82abdb49928ae7c8979dc69, type: 3}
+  playerStatePrefap: {fileID: 2078245250070149564, guid: cd07448ddfd666040a81b22a90d89f68, type: 3}
   roomIdText: {fileID: 1351239485}
   playerReadyTexts:
   - {fileID: 990864335}
@@ -2383,6 +2383,58 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1826767714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1826767715}
+  - component: {fileID: 1826767716}
+  m_Layer: 0
+  m_Name: ChangeSkinData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1826767715
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826767714}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.00282, y: 1.06465, z: 0.0437}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1826767716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826767714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa75719c9e40c045968702954ce219b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSkinData
+  colorMaterials:
+  - {fileID: 2100000, guid: b8ba6068833010f4d8f0fa33196d7634, type: 2}
+  - {fileID: 2100000, guid: 0605226132536b145a0b1a797f4cfce1, type: 2}
+  - {fileID: 2100000, guid: 4838c9f5acb8dc74db1d111edcaa3f48, type: 2}
+  - {fileID: 2100000, guid: 7e5bee6189d90d046b0f015074b4b70d, type: 2}
+  - {fileID: 2100000, guid: 0df2e5f318c54124a8fb329764d75061, type: 2}
+  - {fileID: 2100000, guid: 81cae21b5ca11b74aadf6aab4c4bdbf4, type: 2}
+  - {fileID: 2100000, guid: 2be6a79098313b3418572cc7fa97ed09, type: 2}
 --- !u!1 &1907393189
 GameObject:
   m_ObjectHideFlags: 0
@@ -2781,6 +2833,7 @@ SceneRoots:
   - {fileID: 322740915}
   - {fileID: 1328921838}
   - {fileID: 1368152749}
+  - {fileID: 1826767715}
   - {fileID: 1025822722}
   - {fileID: 1288689448}
   - {fileID: 440341315}
