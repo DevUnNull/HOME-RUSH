@@ -68,6 +68,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ECS",
+                    "type": "Button",
+                    "id": "7298d93f-26d8-48dd-85ae-827adbdb4173",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -235,6 +244,17 @@
                     "action": "ChangeSkin",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "699ac239-aaa7-468c-8c70-16c74f01b5c5",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ECS",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

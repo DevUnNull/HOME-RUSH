@@ -154,6 +154,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ECS"",
+                    ""type"": ""Button"",
+                    ""id"": ""7298d93f-26d8-48dd-85ae-827adbdb4173"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -321,6 +330,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""ChangeSkin"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""699ac239-aaa7-468c-8c70-16c74f01b5c5"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ECS"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -336,6 +356,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Ready = m_Player.FindAction("Ready", throwIfNotFound: true);
         m_Player_TaskBoard = m_Player.FindAction("TaskBoard", throwIfNotFound: true);
         m_Player_ChangeSkin = m_Player.FindAction("ChangeSkin", throwIfNotFound: true);
+        m_Player_ECS = m_Player.FindAction("ECS", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -423,6 +444,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Ready;
     private readonly InputAction m_Player_TaskBoard;
     private readonly InputAction m_Player_ChangeSkin;
+    private readonly InputAction m_Player_ECS;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -462,6 +484,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ChangeSkin".
         /// </summary>
         public InputAction @ChangeSkin => m_Wrapper.m_Player_ChangeSkin;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ECS".
+        /// </summary>
+        public InputAction @ECS => m_Wrapper.m_Player_ECS;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -509,6 +535,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ChangeSkin.started += instance.OnChangeSkin;
             @ChangeSkin.performed += instance.OnChangeSkin;
             @ChangeSkin.canceled += instance.OnChangeSkin;
+            @ECS.started += instance.OnECS;
+            @ECS.performed += instance.OnECS;
+            @ECS.canceled += instance.OnECS;
         }
 
         /// <summary>
@@ -541,6 +570,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ChangeSkin.started -= instance.OnChangeSkin;
             @ChangeSkin.performed -= instance.OnChangeSkin;
             @ChangeSkin.canceled -= instance.OnChangeSkin;
+            @ECS.started -= instance.OnECS;
+            @ECS.performed -= instance.OnECS;
+            @ECS.canceled -= instance.OnECS;
         }
 
         /// <summary>
@@ -630,5 +662,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnChangeSkin(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ECS" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnECS(InputAction.CallbackContext context);
     }
 }
