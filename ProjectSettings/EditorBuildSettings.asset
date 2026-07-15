@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/_Scenes/CoreCameraTest.unity
     guid: e198087117d360c42bf6409556d84945
   - enabled: 1
+    path: Assets/_Scenes/LV2.unity
+    guid: ede06c3f2c99efa4b8ce6c69b9d5a23a
+  - enabled: 1
     path: Assets/_Scenes/AA/AAAA.unity
     guid: d540f56ba16ecd64f9e3f0a7b73dd02c
   - enabled: 1
