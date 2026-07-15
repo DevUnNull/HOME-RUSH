@@ -1,4 +1,4 @@
-﻿using Fusion;
+using Fusion;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -18,9 +18,35 @@ public class LobbyManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 
     public List<LobbyPlayerState> playersInLobby = new();
 
+    [Header("Name Edit UI")]
+    [SerializeField] private TextMeshProUGUI[] playerNameTexts;
+    [SerializeField] private GameObject nameInputPanel;
+    [SerializeField] private TMP_InputField playerNameInputField;
+    [SerializeField] private Button submitNameButton;
+
+    private LobbyPlayerState localPlayer;
+
     private void Awake()
     {
         Instance = this;
+
+        if (submitNameButton != null)
+        {
+            submitNameButton.onClick.AddListener(OnSubmitName);
+        }
+
+        if (playerNameTexts != null)
+        {
+            for (int i = 0; i < playerNameTexts.Length; i++)
+            {
+                int index = i;
+                Button btn = playerNameTexts[i].GetComponent<Button>();
+                if (btn != null)
+                {
+                    btn.onClick.AddListener(() => OnPlayerNameClicked(index));
+                }
+            }
+        }
     }
 
     private void Update()
@@ -32,15 +58,28 @@ public class LobbyManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
             if (i < playersInLobby.Count)
             {
                 playerReadyTexts[i].gameObject.SetActive(true);
+                if (playerNameTexts != null && i < playerNameTexts.Length)
+                {
+                    playerNameTexts[i].gameObject.SetActive(true);
+                }
 
                 LobbyPlayerState p = playersInLobby[i];
 
                 string readyStatus = p.IsReady ? "<color=green>Ready</color>" : "<color=red>Not Ready</color>";
-                playerReadyTexts[i].text = $"Player {p.Object.StateAuthority.PlayerId}: {readyStatus}";
+                playerReadyTexts[i].text = $"{p.PlayerName}: {readyStatus}";
+
+                if (playerNameTexts != null && i < playerNameTexts.Length)
+                {
+                    playerNameTexts[i].text = p.PlayerName.ToString();
+                }
             }
             else
             {
                 playerReadyTexts[i].gameObject.SetActive(false);
+                if (playerNameTexts != null && i < playerNameTexts.Length)
+                {
+                    playerNameTexts[i].gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -83,6 +122,11 @@ public class LobbyManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     {
         if (playersInLobby.Contains(playerState)) return;
         playersInLobby.Add(playerState);
+
+        if (playerState.HasStateAuthority)
+        {
+            localPlayer = playerState;
+        }
     }
 
     public void RemovePlayerFromList(LobbyPlayerState playerState)
@@ -114,6 +158,33 @@ public class LobbyManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
             }
 
             chooseLevelManager.OpenLevelChoosing();
+        }
+    }
+
+    private void OnPlayerNameClicked(int index)
+    {
+        if (localPlayer == null) return;
+        
+        // Only allow clicking our own name
+        int localIndex = playersInLobby.IndexOf(localPlayer);
+        if (index == localIndex && nameInputPanel != null)
+        {
+            nameInputPanel.SetActive(true);
+            playerNameInputField.text = localPlayer.PlayerName.ToString();
+            playerNameInputField.ActivateInputField();
+        }
+    }
+
+    private void OnSubmitName()
+    {
+        if (localPlayer != null && !string.IsNullOrWhiteSpace(playerNameInputField.text))
+        {
+            localPlayer.ChangeName(playerNameInputField.text);
+        }
+
+        if (nameInputPanel != null)
+        {
+            nameInputPanel.SetActive(false);
         }
     }
 }

@@ -22,8 +22,23 @@ public class LobbyPlayerState : NetworkBehaviour
 
         if (HasStateAuthority)
         {
-            PlayerName = "Player_" + LobbyManager.Instance.playersInLobby.Count;
+            string savedName = PlayerPrefs.GetString("PlayerName", "");
+            if (string.IsNullOrEmpty(savedName)) {
+                PlayerName = "Player " + Runner.LocalPlayer.PlayerId;
+            } else {
+                PlayerName = savedName;
+            }
             IsReady = false;
+        }
+    }
+
+    public void ChangeName(string newName)
+    {
+        if (HasStateAuthority)
+        {
+            PlayerName = newName;
+            PlayerPrefs.SetString("PlayerName", newName);
+            PlayerPrefs.Save();
         }
     }
 
