@@ -95,6 +95,8 @@ namespace GameSystems.Time.UI
                 }
             }
         }
+        [Header("Settings")]
+        [SerializeField] private string returnSceneName = "LobbyScene";
 
         public void OnExitButtonClicked()
         {
@@ -104,8 +106,15 @@ namespace GameSystems.Time.UI
                 TimeManager.Instance.Runner.Shutdown();
             }
 
-            // Chuyển về Scene mặc định (thường Scene 0 là Lobby / Menu chính)
-            SceneManager.LoadScene(0);
+            // Chuyển về Scene được chỉ định
+            if (!string.IsNullOrEmpty(returnSceneName))
+            {
+                SceneManager.LoadScene(returnSceneName);
+            }
+            else
+            {
+                SceneManager.LoadScene(0);
+            }
         }
     }
 }
