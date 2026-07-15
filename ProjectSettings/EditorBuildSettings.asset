@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/_Scenes/AA/LobbyScene.unity
     guid: ac4206c35400ea341968558c5d441ae8
   - enabled: 1
-    path: Assets/_Scenes/CoreCameraTest.unity
+    path: Assets/_Scenes/Lv0.unity
     guid: e198087117d360c42bf6409556d84945
   - enabled: 1
     path: Assets/_Scenes/LV2.unity

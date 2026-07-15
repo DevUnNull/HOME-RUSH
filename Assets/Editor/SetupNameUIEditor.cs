@@ -69,6 +69,70 @@ public class SetupNameUIEditor : Editor
         Debug.Log("Successfully setup Name UI on Player Prefab!");
     }
 
+    [MenuItem("Tools/Setup Level Stars UI")]
+    public static void SetupLevelStarsUI()
+    {
+        var scene = EditorSceneManager.GetActiveScene();
+        if (scene == null || !scene.IsValid()) return;
+
+        int setupCount = 0;
+        GameObject[] rootObjects = scene.GetRootGameObjects();
+
+        foreach (var root in rootObjects)
+        {
+            // Find all GameObjects named "Level Button"
+            Transform[] allTransforms = root.GetComponentsInChildren<Transform>(true);
+            foreach (Transform t in allTransforms)
+            {
+                if (t.name == "Level Button")
+                {
+                    var buttonScript = t.GetComponent<LevelSelectButton>();
+                    if (buttonScript == null)
+                    {
+                        buttonScript = t.gameObject.AddComponent<LevelSelectButton>();
+                    }
+
+                    // Try to find the "Stars" object
+                    Transform starsT = t.Find("Stars");
+                    if (starsT != null)
+                    {
+                        Transform star1 = starsT.Find("Star 1");
+                        Transform star2 = starsT.Find("Star 2");
+                        Transform star3 = starsT.Find("Star 3");
+
+                        // Add to array
+                        if (star1 != null && star2 != null && star3 != null)
+                        {
+                            var fieldInfo = typeof(LevelSelectButton).GetField("starIcons", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                            if (fieldInfo != null)
+                            {
+                                GameObject[] starArray = new GameObject[] { star1.gameObject, star2.gameObject, star3.gameObject };
+                                fieldInfo.SetValue(buttonScript, starArray);
+                            }
+                        }
+                    }
+
+                    // Default level name (user has to adjust it themselves, maybe Level1, Level2 etc)
+                    // You could extract number from sibling index or something, but best leave it empty or default.
+                    // We'll leave levelSceneName empty so the user can type the exact scene name.
+
+                    setupCount++;
+                    EditorUtility.SetDirty(t.gameObject);
+                }
+            }
+        }
+
+        if (setupCount > 0)
+        {
+            EditorSceneManager.MarkSceneDirty(scene);
+            Debug.Log($"Successfully setup LevelSelectButton on {setupCount} buttons!");
+        }
+        else
+        {
+            Debug.LogWarning("No 'Level Button' found in the scene.");
+        }
+    }
+
     [MenuItem("Tools/Setup Lobby Name UI")]
     public static void SetupUI()
     {

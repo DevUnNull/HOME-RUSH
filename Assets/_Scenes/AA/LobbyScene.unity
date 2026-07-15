@@ -2162,7 +2162,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8909915717471460733, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 389793840}
   m_SourcePrefab: {fileID: 100100000, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
 --- !u!224 &389793834 stripped
 RectTransform:
@@ -2174,6 +2177,43 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 1994840595913760808, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
   m_PrefabInstance: {fileID: 389793833}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &389793836 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 951169810320599747, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
+  m_PrefabInstance: {fileID: 389793833}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &389793837 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8019370460611567114, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
+  m_PrefabInstance: {fileID: 389793833}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &389793838 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2360549658061229162, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
+  m_PrefabInstance: {fileID: 389793833}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &389793839 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8909915717471460733, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
+  m_PrefabInstance: {fileID: 389793833}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &389793840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389793839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 692986384eb6a4cbc98354c7cd172ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelSelectButton
+  levelSceneName: 
+  starIcons:
+  - {fileID: 389793838}
+  - {fileID: 389793837}
+  - {fileID: 389793836}
 --- !u!1 &417792017
 GameObject:
   m_ObjectHideFlags: 0
@@ -7808,13 +7848,53 @@ PrefabInstance:
     - {fileID: 9085198614804674067, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8909915717471460733, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1689639023}
   m_SourcePrefab: {fileID: 100100000, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
 --- !u!224 &1689639018 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2668987247188460305, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
   m_PrefabInstance: {fileID: 1689639017}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1689639019 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 951169810320599747, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
+  m_PrefabInstance: {fileID: 1689639017}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1689639020 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8019370460611567114, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
+  m_PrefabInstance: {fileID: 1689639017}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1689639021 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2360549658061229162, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
+  m_PrefabInstance: {fileID: 1689639017}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1689639022 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8909915717471460733, guid: b3c3d454955b54620b4a1722514ce76a, type: 3}
+  m_PrefabInstance: {fileID: 1689639017}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1689639023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689639022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 692986384eb6a4cbc98354c7cd172ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelSelectButton
+  levelSceneName: Lv0
+  starIcons:
+  - {fileID: 1689639021}
+  - {fileID: 1689639020}
+  - {fileID: 1689639019}
 --- !u!1 &1697424009
 GameObject:
   m_ObjectHideFlags: 0
