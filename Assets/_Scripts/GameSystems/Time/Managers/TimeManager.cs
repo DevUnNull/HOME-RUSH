@@ -165,6 +165,15 @@ namespace GameSystems.Time.Managers
 
             GenerateResultLocal(completedObjectives, totalObjectives, false);
 
+            // Save the stars using PlayerPrefs
+            string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            int savedStars = PlayerPrefs.GetInt("LevelStars_" + sceneName, 0);
+            if (FinalResult.StarCount > savedStars)
+            {
+                PlayerPrefs.SetInt("LevelStars_" + sceneName, FinalResult.StarCount);
+                PlayerPrefs.Save();
+            }
+
             // Using RPC to broadcast the result to all clients since LevelResult isn't easily networked directly
             RPC_BroadcastResult(FinalResult.RemainingTime, FinalResult.CompletedObjectives, FinalResult.TotalObjectives, false);
 
