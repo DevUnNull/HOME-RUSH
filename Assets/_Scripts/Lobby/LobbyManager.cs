@@ -9,6 +9,7 @@ public class LobbyManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     public static LobbyManager Instance;
 
     [SerializeField] private GameObject playerStatePrefap;
+    [SerializeField] private ChooseLevelManger chooseLevelManger;
 
     [SerializeField] private TextMeshProUGUI roomIdText;
     [SerializeField] private TextMeshProUGUI[] playerReadyTexts;
@@ -156,7 +157,7 @@ public class LobbyManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
                 return;
             }
 
-            Runner.LoadScene(SceneRef.FromIndex(sceneIndex));
+            chooseLevelManger.OpenLevelChoosing();
         }
     }
 

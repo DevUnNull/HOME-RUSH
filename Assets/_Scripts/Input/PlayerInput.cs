@@ -154,6 +154,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Setting"",
+                    ""type"": ""Button"",
+                    ""id"": ""d99d2dc6-683b-42fa-81ad-87a520df88dd"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -321,6 +330,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""ChangeSkin"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fdc9b188-8b77-40ff-a3bc-3b92cf683521"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Setting"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -336,6 +356,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Ready = m_Player.FindAction("Ready", throwIfNotFound: true);
         m_Player_TaskBoard = m_Player.FindAction("TaskBoard", throwIfNotFound: true);
         m_Player_ChangeSkin = m_Player.FindAction("ChangeSkin", throwIfNotFound: true);
+        m_Player_Setting = m_Player.FindAction("Setting", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -423,6 +444,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Ready;
     private readonly InputAction m_Player_TaskBoard;
     private readonly InputAction m_Player_ChangeSkin;
+    private readonly InputAction m_Player_Setting;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -462,6 +484,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ChangeSkin".
         /// </summary>
         public InputAction @ChangeSkin => m_Wrapper.m_Player_ChangeSkin;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Setting".
+        /// </summary>
+        public InputAction @Setting => m_Wrapper.m_Player_Setting;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -509,6 +535,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ChangeSkin.started += instance.OnChangeSkin;
             @ChangeSkin.performed += instance.OnChangeSkin;
             @ChangeSkin.canceled += instance.OnChangeSkin;
+            @Setting.started += instance.OnSetting;
+            @Setting.performed += instance.OnSetting;
+            @Setting.canceled += instance.OnSetting;
         }
 
         /// <summary>
@@ -541,6 +570,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ChangeSkin.started -= instance.OnChangeSkin;
             @ChangeSkin.performed -= instance.OnChangeSkin;
             @ChangeSkin.canceled -= instance.OnChangeSkin;
+            @Setting.started -= instance.OnSetting;
+            @Setting.performed -= instance.OnSetting;
+            @Setting.canceled -= instance.OnSetting;
         }
 
         /// <summary>
@@ -630,5 +662,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnChangeSkin(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Setting" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetting(InputAction.CallbackContext context);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.InputSystem;
 
 public class AudioManager : NetworkBehaviour
 {
@@ -11,6 +12,10 @@ public class AudioManager : NetworkBehaviour
 
     [SerializeField] private AudioMixer mainMixer;
 
+    [SerializeField] private GameObject audioCanvas;
+
+    private PlayerInput playerInput;
+
     private void Awake()
     {
         sfxChannel.OnTriggerAudio += PlaySFX;
@@ -18,6 +23,10 @@ public class AudioManager : NetworkBehaviour
 
         sfxChannel.OnStopAudio += StopSFX;
         bgmChannel.OnStopAudio += StopBGM;
+
+        playerInput = new PlayerInput();
+        playerInput.Enable();
+        playerInput.Player.Setting.started += ToggleSettingCanva;
     }
 
     public override void Spawned()
@@ -55,5 +64,17 @@ public class AudioManager : NetworkBehaviour
     private void StopBGM()
     {
 
+    }
+
+    private void ToggleSettingCanva(InputAction.CallbackContext context)
+    {
+        if (audioCanvas.gameObject.activeSelf)
+        {
+            audioCanvas.gameObject.SetActive(false);
+        }
+        else
+        {
+            audioCanvas.gameObject.SetActive(true);
+        }
     }
 }
