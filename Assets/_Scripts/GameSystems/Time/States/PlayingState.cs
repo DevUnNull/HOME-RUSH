@@ -15,6 +15,14 @@ namespace GameSystems.Time.States
             if (manager.RemainingTime > 0)
             {
                 manager.RemainingTime -= manager.Runner.DeltaTime;
+                
+                // Check win condition (100% completion)
+                if (GameProgressManager.Instance != null && GameProgressManager.Instance.GetTotalProgress() >= 0.999f)
+                {
+                    manager.CompleteLevel(1, 1);
+                    return;
+                }
+
                 if (manager.RemainingTime <= 0)
                 {
                     manager.RemainingTime = 0;
