@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 223976555810120023}
   - component: {fileID: 4562736787982356510}
   - component: {fileID: 8486211455230958317}
+  - component: {fileID: 7249590600933110621}
   m_Layer: 0
   m_Name: PaintSpill
   m_TagString: Untagged
@@ -197,6 +198,19 @@ MonoBehaviour:
   - {fileID: 4562736787982356510}
   - {fileID: 4510834168138143627}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &7249590600933110621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7962017719838923273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa2c2d2d7bb5fa4385a19849381bee7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PaintSpillColor
+  m_Renderer: {fileID: 8153540714385768447}
 --- !u!1001 &7414798233484354427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -257,5 +271,10 @@ PrefabInstance:
 --- !u!4 &7020019764491322512 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 520a493f99f741845a31a41054b698b9, type: 3}
+  m_PrefabInstance: {fileID: 7414798233484354427}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8153540714385768447 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 520a493f99f741845a31a41054b698b9, type: 3}
   m_PrefabInstance: {fileID: 7414798233484354427}
   m_PrefabAsset: {fileID: 0}
