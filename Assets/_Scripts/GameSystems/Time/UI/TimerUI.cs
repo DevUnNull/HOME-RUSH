@@ -60,16 +60,16 @@ namespace GameSystems.Time.UI
         private void UpdateVisualWarnings(float remainingTime)
         {
             // Critical (< 30s)
-            if (remainingTime <= 30f)
-            {
-                if (timeText != null) timeText.color = criticalColor;
-                if (warningEffect != null) warningEffect.alpha = 0.5f;
-            }
-            else
-            {
-                if (timeText != null) timeText.color = normalColor;
-                if (warningEffect != null) warningEffect.alpha = 0f;
-            }
+            // if (remainingTime <= 30f)
+            // {
+            //     if (timeText != null) timeText.color = criticalColor;
+            //     if (warningEffect != null) warningEffect.alpha = 0.5f;
+            // }
+            // else
+            // {
+            //     if (timeText != null) timeText.color = normalColor;
+            //     if (warningEffect != null) warningEffect.alpha = 0f;
+            // }
 
             // Warning Shake (< 10s)
             if (remainingTime <= 10f && remainingTime > 0)
