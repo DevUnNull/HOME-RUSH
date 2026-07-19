@@ -26,7 +26,7 @@ public class AudioManager : NetworkBehaviour
 
         playerInput = new PlayerInput();
         playerInput.Enable();
-        playerInput.Player.Setting.started += ToggleSettingCanva;
+
     }
 
     public override void Spawned()

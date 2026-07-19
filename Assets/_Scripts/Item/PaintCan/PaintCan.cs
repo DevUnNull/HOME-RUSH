@@ -20,7 +20,7 @@ public class PaintCan : NetworkBehaviour
         Vector3 pos = new Vector3(colPoint.x, colPoint.y + 0.005f, colPoint.z);
 
         NetworkObject aa = Runner.Spawn(paintLiquidPrefab, pos, Quaternion.identity);
-        aa.GetComponent<PaintSpillColor>().Init(paintColor);
+        aa.GetComponent<PaintSpillColorTaker>().Init(paintColor);
         hasAlreadySpilled = true;
     }
 }

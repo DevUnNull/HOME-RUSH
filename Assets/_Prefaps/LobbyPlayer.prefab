@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4271217833633943982}
   - component: {fileID: 1626323407357387955}
   - component: {fileID: 5738631902114706607}
-  - component: {fileID: 2857421649037510164}
   - component: {fileID: 2352022829821453366}
   m_Layer: 0
   m_Name: LobbyPlayer
@@ -56,7 +55,6 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 4271217833633943982}
-  - {fileID: 2857421649037510164}
   - {fileID: 2352022829821453366}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &4271217833633943982
@@ -196,20 +194,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2857421649037510164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2078245250070149564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eda739802e480794aa426da8d6f9a0cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LobbyChangeSkin
-  playerMeshRender: {fileID: 3786870956159309478}
-  _CurrentColor: 0
 --- !u!114 &2352022829821453366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,11 +289,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a2441e12df75470a8506cd6e91cada2, type: 3}
---- !u!137 &3786870956159309478 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -878858825911514877, guid: 7a2441e12df75470a8506cd6e91cada2, type: 3}
-  m_PrefabInstance: {fileID: 5134105360999473061}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4668747247602645070 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7a2441e12df75470a8506cd6e91cada2, type: 3}

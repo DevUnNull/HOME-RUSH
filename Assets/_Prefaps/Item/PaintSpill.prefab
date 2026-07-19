@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 223976555810120023}
   - component: {fileID: 4562736787982356510}
   - component: {fileID: 8486211455230958317}
-  - component: {fileID: 7249590600933110621}
+  - component: {fileID: 6533753352571528634}
   m_Layer: 0
   m_Name: PaintSpill
   m_TagString: Untagged
@@ -198,7 +198,7 @@ MonoBehaviour:
   - {fileID: 4562736787982356510}
   - {fileID: 4510834168138143627}
   ForceRemoteRenderTimeframe: 0
---- !u!114 &7249590600933110621
+--- !u!114 &6533753352571528634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -207,9 +207,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7962017719838923273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fa2c2d2d7bb5fa4385a19849381bee7, type: 3}
+  m_Script: {fileID: 11500000, guid: 17d278d871e703b4c9c1ad87369a78f9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PaintSpillColor
+  m_EditorClassIdentifier: Assembly-CSharp::PaintSpillColorTaker
   m_Renderer: {fileID: 8153540714385768447}
 --- !u!1001 &7414798233484354427
 PrefabInstance:
