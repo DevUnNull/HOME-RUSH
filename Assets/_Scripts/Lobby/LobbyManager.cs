@@ -150,14 +150,12 @@ public class LobbyManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 
     public void OnStartGameClicked()
     {
-        if (Runner.IsSharedModeMasterClient)
+        if (Runner.IsSharedModeMasterClient || Runner.IsServer)
         {
-            if (!AllPlayersReady())
-            {
-                return;
-            }
+            if (!AllPlayersReady()) return;
 
-            chooseLevelManger.OpenLevelChoosing();
+            // Chuyển toàn bộ Host và Client sang Scene InGame (Index = 3)
+            Runner.LoadScene(SceneRef.FromIndex(sceneIndex));
         }
     }
 

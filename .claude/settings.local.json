@@ -1,9 +1,9 @@
 {
   "mcpServers": {
     "unity-synaptic": {
-      "command": "C:/Program Files/nodejs/node.exe",
+      "command": "/usr/local/bin/node",
       "args": [
-        "D:/UnityTuLam/Project/HOME-RUSH/Assets/Synaptic AI Pro/MCPServer/index-supersave.js"
+        "/Users/user/Documents/Unity/ProjectUnity/HOME-RUSH/Assets/Synaptic AI Pro/MCPServer/index-supersave.js"
       ],
       "env": {}
     }

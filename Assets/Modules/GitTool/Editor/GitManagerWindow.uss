@@ -1,0 +1,51 @@
+/* GitManagerWindow.uss */
+.header-title {
+    font-size: 16px;
+    -unity-font-style: bold;
+    padding: 10px;
+    -unity-text-align: middle-center;
+}
+
+.box-container {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.bold-label {
+    -unity-font-style: bold;
+}
+
+.branch-highlight {
+    color: #33cc66;
+    -unity-font-style: bold;
+}
+
+.git-tree-text {
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.button-row {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.action-btn {
+    padding: 8px;
+    border-radius: 4px;
+    -unity-font-style: bold;
+}
+
+.conflict-warning {
+    background-color: rgba(200, 0, 0, 0.3);
+    border-left-width: 4px;
+    border-left-color: #ff3333;
+    padding: 10px;
+    margin-bottom: 10px;
+}

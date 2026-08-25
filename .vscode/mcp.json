@@ -2,11 +2,11 @@
   "servers": {
     "unity-synaptic": {
       "type": "stdio",
-      "command": "C:/Program Files/nodejs/node.exe",
+      "command": "/usr/local/bin/node",
       "args": [
-        "D:/UnityTuLam/Project/HOME-RUSH/Assets/Synaptic AI Pro/MCPServer/index-supersave.js"
+        "/Users/user/Documents/Unity/ProjectUnity/HOME-RUSH/Assets/Synaptic AI Pro/MCPServer/index-supersave.js"
       ],
-      "cwd": "D:/UnityTuLam/Project/HOME-RUSH/Assets/Synaptic AI Pro/MCPServer"
+      "cwd": "/Users/user/Documents/Unity/ProjectUnity/HOME-RUSH/Assets/Synaptic AI Pro/MCPServer"
     }
   }
 }

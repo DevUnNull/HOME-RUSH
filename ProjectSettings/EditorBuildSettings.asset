@@ -15,29 +15,8 @@ EditorBuildSettings:
     path: Assets/_Scenes/AA/LobbyScene.unity
     guid: ac4206c35400ea341968558c5d441ae8
   - enabled: 1
-    path: Assets/_Scenes/Lv0.unity
-    guid: e198087117d360c42bf6409556d84945
-  - enabled: 1
-    path: Assets/_Scenes/Lv1New.unity
-    guid: 4db98505aa7e8cf4cab20557260d49ac
-  - enabled: 1
-    path: Assets/_Scenes/LV2.unity
-    guid: ede06c3f2c99efa4b8ce6c69b9d5a23a
-  - enabled: 1
-    path: Assets/_Scenes/AA/AAAA.unity
-    guid: d540f56ba16ecd64f9e3f0a7b73dd02c
-  - enabled: 1
-    path: Assets/_Scenes/TestScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/_Scenes/Level.unity
-    guid: 7906958b6a8afcf48a6d626392cc82ec
-  - enabled: 1
-    path: Assets/_Scenes/BluePrint.unity
-    guid: 7568940bc81df4591b6d1e5a5cced142
-  - enabled: 1
-    path: Assets/_Scenes/AA/LobbySceneDuplicateForMerge.unity
-    guid: 7bd2021510bf1db469c9ce499383d905
+    path: Assets/_Scenes/InGame.unity
+    guid: 0642076ffc2d9407c8d7e1f88465c59f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

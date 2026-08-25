@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd">
+
+    <engine:ScrollView name="main-scroll">
+        <engine:Label text="QUẢN LÝ GIT UNNULL" class="header-title" />
+        
+        <engine:Button name="btn-smart-merge" text="Cấu hình Unity Smart Merge (Khuyến nghị)" class="action-btn" />
+
+        <!-- Thanh trạng thái nhánh -->
+        <engine:VisualElement class="box-container" style="flex-direction: row; align-items: center;">
+            <engine:Label text="📍 Đang đứng tại Nhánh (HEAD):" class="bold-label" style="width: 200px;" />
+            <engine:Label name="lbl-current-branch" text="Đang tải..." class="branch-highlight" style="flex-grow: 1;" />
+            <engine:Button name="btn-refresh-tree" text="🔄 Làm mới Cây" style="width: 110px;" />
+        </engine:VisualElement>
+
+        <!-- Git Tree -->
+        <engine:Label text="🌳 SƠ ĐỒ NHÁNH &amp; LỊCH SỬ COMMIT (GIT TREE):" class="bold-label" style="margin-top: 5px; margin-bottom: 5px;" />
+        <engine:ScrollView class="box-container" style="height: 220px;">
+            <engine:Label name="lbl-git-tree" enable-rich-text="true" class="git-tree-text" />
+        </engine:ScrollView>
+
+        <!-- Branch Area Foldout -->
+        <engine:Foldout name="foldout-branch" text="Quản lý Nhánh (Branch &amp; Merge)" value="true">
+            <engine:VisualElement class="box-container">
+                <engine:VisualElement class="button-row">
+                    <engine:DropdownField name="dropdown-branch" label="Chọn nhánh:" style="flex-grow: 1; margin-right: 5px;" />
+                    <engine:Button name="btn-checkout" text="Đổi nhánh" style="width: 80px;" />
+                    <engine:Button name="btn-merge" text="Merge" style="width: 60px;" />
+                </engine:VisualElement>
+
+                <engine:VisualElement class="button-row">
+                    <engine:TextField name="txt-rename-branch" label="Đổi tên nhánh thành:" style="flex-grow: 1; margin-right: 5px;" />
+                    <engine:Button name="btn-rename-branch" text="Đổi tên (Rename)" style="width: 145px;" />
+                </engine:VisualElement>
+                
+                <engine:VisualElement class="button-row">
+                    <engine:TextField name="txt-new-branch" label="Tạo nhánh mới:" style="flex-grow: 1; margin-right: 5px;" />
+                    <engine:Button name="btn-create-branch" text="Tạo &amp; Checkout" style="width: 145px;" />
+                </engine:VisualElement>
+
+                <engine:Button name="btn-fetch" text="Lấy dữ liệu mới nhất (Git Fetch)" class="action-btn" />
+            </engine:VisualElement>
+        </engine:Foldout>
+
+        <!-- Git Status -->
+        <engine:Button name="btn-status" text="Kiểm tra File Thay Đổi (Git Status)" class="action-btn" style="height: 30px;" />
+        <engine:Label text="Danh sách file thay đổi:" style="margin-top: 5px;" class="bold-label" />
+        <engine:ScrollView class="box-container" style="height: 150px;">
+            <engine:Label name="lbl-status" text="Chưa kiểm tra trạng thái." />
+        </engine:ScrollView>
+
+        <!-- Gemini AI Config -->
+        <engine:Foldout name="foldout-gemini" text="🤖 Cấu hình Gemini AI (Tự tạo Commit)" value="false" style="margin-bottom: 10px;">
+            <engine:VisualElement class="box-container">
+                <engine:TextField name="txt-gemini-key" label="Gemini API Key:" is-password="true" style="flex-grow: 1;" />
+                <engine:Label text="Tự động lưu Key vào EditorPrefs." style="font-size: 10px; color: #888888; margin-top: 2px;" />
+            </engine:VisualElement>
+        </engine:Foldout>
+
+        <!-- Commit -->
+        <engine:VisualElement class="button-row" style="align-items: center;">
+            <engine:Label text="Tin nhắn Commit (Commit Message):" class="bold-label" style="flex-grow: 1;" />
+            <engine:Button name="btn-ai-commit" text="✨ Tự tạo Commit " class="action-btn" style="background-color: #2b5c8f; color: white;" />
+        </engine:VisualElement>
+        <engine:Label name="lbl-ai-status" text="" style="font-size: 11px; color: #55aaff; margin-bottom: 2px; display: none;" />
+
+        <engine:VisualElement style="position: relative; margin-bottom: 10px;">
+            <engine:TextField name="txt-commit-msg" multiline="true" style="height: 90px;" />
+            <engine:Label name="lbl-placeholder" text="feat: thêm chức năng mới&#10;fix: sửa lỗi game&#10;refactor: tối ưu lại code&#10;chore: dọn dẹp project" style="position: absolute; top: 5px; left: 5px; color: rgba(255,255,255,0.3); font-style: italic; font-size: 11px;" picking-mode="Ignore" />
+        </engine:VisualElement>
+        
+        <engine:Button name="btn-stage-all" text="1. Stage Tất Cả File (Git Add .)" class="action-btn" />
+        <engine:Button name="btn-commit" text="2. Thực Hiện Commit (Git Commit)" class="action-btn" style="margin-top: 5px;" />
+
+        <engine:VisualElement class="button-row" style="margin-top: 10px;">
+            <engine:Button name="btn-push" text="Push (Git Push)" class="action-btn" style="flex-grow: 1; height: 35px; margin-right: 5px;" />
+            <engine:Button name="btn-pull" text="Pull (Git Pull)" class="action-btn" style="flex-grow: 1; height: 35px; margin-left: 5px;" />
+        </engine:VisualElement>
+
+        <engine:VisualElement name="progress-area" style="display: none; margin-top: 10px; margin-bottom: 10px;">
+            <engine:ProgressBar name="git-progress-bar" title="Đang xử lý..." style="height: 20px;" />
+            <engine:Label name="lbl-progress-text" text="..." style="font-size: 11px; margin-top: 2px; color: #aaaaaa;" />
+        </engine:VisualElement>
+
+        <!-- Conflict Area -->
+        <engine:VisualElement name="conflict-area" class="conflict-warning" style="display: none;">
+            <engine:Label text="CẢNH BÁO: DỰ ÁN ĐANG BỊ CONFLICT SCENE/PREFAB!" class="bold-label" style="color: white; margin-bottom: 5px;" />
+            <engine:ScrollView name="scroll-conflict" style="height: 120px; background-color: rgba(0,0,0,0.5); padding: 5px;" />
+        </engine:VisualElement>
+
+    </engine:ScrollView>
+</engine:UXML>
