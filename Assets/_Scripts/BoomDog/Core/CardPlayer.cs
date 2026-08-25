@@ -29,6 +29,51 @@ namespace BoomDog.Core
                 Local = this;
                 Debug.Log("Local Player đã Spawn thành công trên mạng! Đang xin Host chia bài...");
                 RPC_RequestCards();
+                CreateDrawPileUI(); // Tự tạo UI Nọc Bài
+            }
+        }
+
+        private void CreateDrawPileUI()
+        {
+            if (cardUIPrefab == null) return;
+            GameObject canvas = GameObject.Find("MainCanvas");
+            if (canvas != null)
+            {
+                Transform drawPile = canvas.transform.Find("DrawPile");
+                if (drawPile == null)
+                {
+                    GameObject dp = new GameObject("DrawPile");
+                    dp.transform.SetParent(canvas.transform, false);
+                    dp.transform.localPosition = new Vector3(-250f, 0, 0); // Nằm lệch sang trái
+                    
+                    GameObject deckVisual = Instantiate(cardUIPrefab, dp.transform);
+                    deckVisual.transform.localPosition = Vector3.zero;
+                    deckVisual.transform.localScale = Vector3.one * 0.8f; // Thu nhỏ lại một chút
+                    
+                    var visual = deckVisual.GetComponent<CardVisual>();
+                    visual.SetFaceUp(false); // Úp bài
+                    visual.MarkAsPlayed(); // KHÓA HOVER
+                    
+                    // Thêm nút bấm để bốc bài
+                    var btn = deckVisual.AddComponent<UnityEngine.UI.Button>();
+                    btn.onClick.AddListener(() => {
+                        if (CardGameManager.Instance.IsMyTurn(Object.StateAuthority))
+                        {
+                            if (!CardGameManager.Instance.HasDrawnCardThisTurn)
+                            {
+                                RPC_RequestDrawCard();
+                            }
+                            else
+                            {
+                                Debug.Log("Bạn ĐÃ bốc bài rồi! Hãy đánh 1 lá ra.");
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Chưa tới lượt của bạn!");
+                        }
+                    });
+                }
             }
         }
 
@@ -41,6 +86,24 @@ namespace BoomDog.Core
                 if (handCardIds.Count == 0 && DeckManager.Instance != null)
                 {
                     DeckManager.Instance.DealCardsToSinglePlayer(this);
+                }
+            }
+        }
+
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        public void RPC_RequestDrawCard()
+        {
+            // Chủ phòng sẽ bốc 1 lá ngẫu nhiên từ DeckManager và gửi cho người xin bốc
+            if (CardGameManager.Instance.HasStateAuthority)
+            {
+                if (DeckManager.Instance != null)
+                {
+                    string cardId = DeckManager.Instance.DrawCard();
+                    if (!string.IsNullOrEmpty(cardId))
+                    {
+                        RPC_ReceiveCard(cardId);
+                        CardGameManager.Instance.HasDrawnCardThisTurn = true; // Đánh dấu là đã bốc bài
+                    }
                 }
             }
         }

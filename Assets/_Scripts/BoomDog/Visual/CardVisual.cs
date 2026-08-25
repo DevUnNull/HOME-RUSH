@@ -120,12 +120,18 @@ namespace BoomDog.Visual
         {
             if (_isPlayed) return;
             
-            // KIỂM TRA LƯỢT ĐÁNH
+            // KIỂM TRA LƯỢT ĐÁNH VÀ BỐC BÀI
             if (BoomDog.Core.CardGameManager.Instance != null && BoomDog.Core.CardPlayer.Local != null)
             {
                 if (!BoomDog.Core.CardGameManager.Instance.IsMyTurn(BoomDog.Core.CardPlayer.Local.Object.StateAuthority))
                 {
                     Debug.Log("Chưa tới lượt của bạn!");
+                    return;
+                }
+                
+                if (!BoomDog.Core.CardGameManager.Instance.HasDrawnCardThisTurn)
+                {
+                    Debug.Log("Bạn phải bốc 1 lá trước khi đánh!");
                     return;
                 }
             }

@@ -10,7 +10,8 @@ namespace BoomDog.Core
         public static CardGameManager Instance { get; private set; }
         
         [Networked] public int CurrentPlayerTurnIndex { get; set; }
-        [Networked] public bool IsGameStarted { get; set; }
+        [Networked] public NetworkBool IsGameStarted { get; set; }
+        [Networked] public NetworkBool HasDrawnCardThisTurn { get; set; }
 
         [Header("Setup")]
         public NetworkObject playerPrefab; // Đã đổi sang NetworkObject cho dễ tự động gán
@@ -97,7 +98,7 @@ namespace BoomDog.Core
             if (!HasStateAuthority) return;
             
             CurrentPlayerTurnIndex = (CurrentPlayerTurnIndex + 1) % _activePlayers.Count;
-            // TODO: Gọi UI (RPC) để sáng đèn người đang tới lượt
+            HasDrawnCardThisTurn = false; // Bắt đầu lượt mới, chưa bốc bài
         }
     }
 }
