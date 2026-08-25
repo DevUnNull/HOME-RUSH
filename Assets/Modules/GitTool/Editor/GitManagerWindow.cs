@@ -33,7 +33,7 @@ namespace DXLab.GitTool.Editor
         private Button btnPull;
 
         private const string GEMINI_KEY_PREF = "GitTool_GeminiAPIKey";
-        private const string DEFAULT_GEMINI_KEY = "AQ.Ab8RN6L0b-K_fO-w9G-TN6RL6SKrnFV5cNDYjPF7uzhpNtlhFg";
+        private const string DEFAULT_GEMINI_KEY = "[GCP_API_KEY]";
 
         private TextField txtGeminiKey;
         private Button btnAiCommit;
