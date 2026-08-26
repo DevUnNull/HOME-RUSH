@@ -10,6 +10,8 @@ namespace BoomDog.Core
     {
         public static DeckManager Instance { get; private set; }
 
+        [Networked] public int CardsInDeck { get; set; }
+
         public List<CardData> allAvailableCards = new List<CardData>(); 
         
         private List<string> _drawPileIds = new List<string>();
@@ -20,30 +22,110 @@ namespace BoomDog.Core
             else Destroy(gameObject);
         }
 
-        public void InitializeDeck()
+        private List<string> _allNormalCards = new List<string>();
+        private List<string> _allDefuseCards = new List<string>();
+        private List<string> _allExplodingDogs = new List<string>();
+
+        public void InitializeDeck(int playerCount)
         {
             if (!HasStateAuthority) return;
-            
+            CreateCardInstances();
+        }
+
+        private void CreateCardInstances()
+        {
+            _allNormalCards.Clear();
+            _allDefuseCards.Clear();
+            _allExplodingDogs.Clear();
             _drawPileIds.Clear();
             
-            // TỰ ĐỘNG NHÂN BẢN Ở RUNTIME NẾU SỐ LƯỢNG QUÁ ÍT (Phòng hờ Scene chưa lưu)
-            if (allAvailableCards.Count > 0 && allAvailableCards.Count < 20)
+            var uniqueTemplates = allAvailableCards.Where(c => c != null).Distinct().ToList();
+            
+            foreach (var template in uniqueTemplates)
             {
-                var unique = new List<CardData>(allAvailableCards);
-                allAvailableCards.Clear();
-                foreach(var c in unique)
+                if (template.cardType == CardType.ExplodingDog)
                 {
-                    for(int i = 0; i < 6; i++) allAvailableCards.Add(c);
+                    for (int i = 0; i < 4; i++) _allExplodingDogs.Add(template.id);
+                }
+                else if (template.cardType == CardType.Defuse)
+                {
+                    for (int i = 0; i < 6; i++) _allDefuseCards.Add(template.id);
+                }
+                else
+                {
+                    int count = 4;
+                    if (template.cardType == CardType.Nope || template.cardType == CardType.SeeTheFuture) count = 5;
+                    for (int i = 0; i < count; i++) _allNormalCards.Add(template.id);
                 }
             }
             
-            // Đưa toàn bộ ID bài vào nọc
-            foreach (var card in allAvailableCards)
+            System.Random rng = new System.Random();
+            _allNormalCards = _allNormalCards.OrderBy(a => rng.Next()).ToList();
+        }
+
+        public void DealCardsToAllPlayers()
+        {
+            if (!HasStateAuthority) return;
+
+            var players = CardGameManager.Instance.spawnedCardPlayers;
+            int playerCount = players.Count;
+            int defuseDistributed = 0;
+
+            foreach (var player in players)
             {
-                if (card != null) _drawPileIds.Add(card.id);
+                if (_allDefuseCards.Count > 0)
+                {
+                    string defuseId = _allDefuseCards[0];
+                    _allDefuseCards.RemoveAt(0);
+                    player.RPC_ReceiveCard(defuseId);
+                    defuseDistributed++;
+                }
+
+                for (int i = 0; i < 7; i++)
+                {
+                    if (_allNormalCards.Count > 0)
+                    {
+                        string normalId = _allNormalCards[0];
+                        _allNormalCards.RemoveAt(0);
+                        player.RPC_ReceiveCard(normalId);
+                    }
+                }
             }
-            
+
+            CreateDrawPile(playerCount);
+
+            Debug.Log($"=== DECK INITIALIZATION ===\n" +
+                      $"Players: {playerCount}\n" +
+                      $"Cards per player: 8\n" +
+                      $"Defuse distributed: {defuseDistributed}\n" +
+                      $"Defuse in Draw Pile: {_allDefuseCards.Count}\n" +
+                      $"ExplodingDog in Draw Pile: {playerCount - 1}\n" +
+                      $"Draw Pile: {_drawPileIds.Count}\n" +
+                      $"===========================");
+        }
+
+        private void CreateDrawPile(int playerCount)
+        {
+            _drawPileIds.Clear();
+
+            _drawPileIds.AddRange(_allNormalCards);
+            _allNormalCards.Clear();
+
+            _drawPileIds.AddRange(_allDefuseCards);
+            _allDefuseCards.Clear();
+
+            int dogsToAdd = playerCount - 1;
+            for (int i = 0; i < dogsToAdd; i++)
+            {
+                if (_allExplodingDogs.Count > 0)
+                {
+                    _drawPileIds.Add(_allExplodingDogs[0]);
+                    _allExplodingDogs.RemoveAt(0);
+                }
+            }
+
             ShuffleDrawPile();
+            CardsInDeck = _drawPileIds.Count;
         }
 
         public void ShuffleDrawPile()
@@ -52,41 +134,13 @@ namespace BoomDog.Core
             _drawPileIds = _drawPileIds.OrderBy(a => rng.Next()).ToList();
         }
 
-        public void DealCardsToPlayers(List<CardPlayer> players)
-        {
-            if (!HasStateAuthority) return;
-            
-            if (_drawPileIds.Count == 0) InitializeDeck();
-            
-            foreach (var player in players)
-            {
-                DealCardsToSinglePlayer(player);
-            }
-        }
-
-        public void DealCardsToSinglePlayer(CardPlayer player)
-        {
-            if (!HasStateAuthority) return;
-
-            if (_drawPileIds.Count == 0) InitializeDeck();
-
-            int startingCards = 5;
-            for (int i = 0; i < startingCards; i++)
-            {
-                string cardId = DrawCard();
-                if (!string.IsNullOrEmpty(cardId))
-                {
-                    player.RPC_ReceiveCard(cardId);
-                }
-            }
-        }
-
         public string DrawCard()
         {
             if (_drawPileIds.Count == 0) return null;
             
             string drawnId = _drawPileIds[0];
             _drawPileIds.RemoveAt(0);
+            CardsInDeck = _drawPileIds.Count;
             return drawnId;
         }
 

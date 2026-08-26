@@ -11,7 +11,7 @@ namespace BoomDog.Core
         
         [Networked] public int CurrentPlayerTurnIndex { get; set; }
         [Networked] public NetworkBool IsGameStarted { get; set; }
-        [Networked] public NetworkBool HasDrawnCardThisTurn { get; set; }
+        [Networked] public NetworkBool HasPlayedCardThisTurn { get; set; }
 
         [Header("Setup")]
         public NetworkObject playerPrefab; // Đã đổi sang NetworkObject cho dễ tự động gán
@@ -89,8 +89,16 @@ namespace BoomDog.Core
             
             IsGameStarted = true;
             CurrentPlayerTurnIndex = 0;
+            HasPlayedCardThisTurn = false;
             
             Debug.Log("Game Started!");
+            
+            int playerCount = _activePlayers.Count;
+            if (DeckManager.Instance != null)
+            {
+                DeckManager.Instance.InitializeDeck(playerCount);
+                DeckManager.Instance.DealCardsToAllPlayers();
+            }
         }
 
         public void NextTurn()
@@ -98,7 +106,7 @@ namespace BoomDog.Core
             if (!HasStateAuthority) return;
             
             CurrentPlayerTurnIndex = (CurrentPlayerTurnIndex + 1) % _activePlayers.Count;
-            HasDrawnCardThisTurn = false; // Bắt đầu lượt mới, chưa bốc bài
+            HasPlayedCardThisTurn = false; // Reset giới hạn đánh bài cho người tiếp theo
         }
     }
 }

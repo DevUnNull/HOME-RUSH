@@ -23,12 +23,23 @@ namespace BoomDog.Visual
         private bool _isPlayed = false;
         private Vector3 _originalFrontPos;
         private RectTransform _rectTransform;
+        private Canvas _canvas;
 
         private void Start()
         {
             _rectTransform = GetComponent<RectTransform>();
             if (cardFrontObj != null)
                 _originalFrontPos = cardFrontObj.transform.localPosition;
+                
+            // Lấy hoặc tự thêm Canvas để can thiệp thứ tự vẽ (hiển thị bài đè lên nhau)
+            _canvas = GetComponent<Canvas>();
+            if (_canvas == null)
+            {
+                _canvas = gameObject.AddComponent<Canvas>();
+                gameObject.AddComponent<UnityEngine.UI.GraphicRaycaster>();
+            }
+            _canvas.overrideSorting = true;
+            _canvas.sortingOrder = 0;
         }
 
         public void Initialize(CardData data, bool isFaceUp = true)
@@ -51,6 +62,17 @@ namespace BoomDog.Visual
         {
             if (cardBackObj != null) cardBackObj.SetActive(!isFaceUp);
             if (cardFrontObj != null) cardFrontObj.SetActive(isFaceUp);
+        }
+
+        public void SetFanOffset(float yOffset, float angle)
+        {
+            if (cardFrontObj == null || _isPlayed) return;
+            
+            _originalFrontPos = new Vector3(_originalFrontPos.x, yOffset, _originalFrontPos.z);
+            
+            cardFrontObj.transform.DOKill(); // Dừng tween đang chạy
+            cardFrontObj.transform.localPosition = _originalFrontPos;
+            cardFrontObj.transform.localRotation = Quaternion.Euler(0, 0, angle);
         }
 
         public void AnimateDrawCard(System.Action onComplete = null)
@@ -105,22 +127,24 @@ namespace BoomDog.Visual
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (_isPlayed || cardFrontObj == null) return;
-            // Nhô bài lên khi hover
+            // Nhô bài lên khi hover và ưu tiên hiển thị lên trên cùng
             cardFrontObj.transform.DOLocalMoveY(_originalFrontPos.y + 30f, 0.2f);
+            if (_canvas != null) _canvas.sortingOrder = 10;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (_isPlayed || cardFrontObj == null) return;
-            // Trả về vị trí cũ
+            // Trả về vị trí cũ và trả về thứ tự vẽ gốc
             cardFrontObj.transform.DOLocalMoveY(_originalFrontPos.y, 0.2f);
+            if (_canvas != null) _canvas.sortingOrder = 0;
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
             if (_isPlayed) return;
             
-            // KIỂM TRA LƯỢT ĐÁNH VÀ BỐC BÀI
+            // KIỂM TRA LƯỢT ĐÁNH VÀ GIỚI HẠN SỐ LÁ
             if (BoomDog.Core.CardGameManager.Instance != null && BoomDog.Core.CardPlayer.Local != null)
             {
                 if (!BoomDog.Core.CardGameManager.Instance.IsMyTurn(BoomDog.Core.CardPlayer.Local.Object.StateAuthority))
@@ -129,9 +153,9 @@ namespace BoomDog.Visual
                     return;
                 }
                 
-                if (!BoomDog.Core.CardGameManager.Instance.HasDrawnCardThisTurn)
+                if (BoomDog.Core.CardGameManager.Instance.HasPlayedCardThisTurn)
                 {
-                    Debug.Log("Bạn phải bốc 1 lá trước khi đánh!");
+                    Debug.Log("Bạn ĐÃ đánh 1 lá rồi! Vui lòng bốc bài ở Nọc để kết thúc lượt.");
                     return;
                 }
             }

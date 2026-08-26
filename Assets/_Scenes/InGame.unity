@@ -890,11 +890,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f826f179406b4083bcb6d3535404ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoomDog.Core.DeckManager
+  _CardsInDeck: 0
   allAvailableCards:
   - {fileID: 11400000, guid: 7657c9408e049411ea85d59eee55a8cd, type: 2}
+  - {fileID: 11400000, guid: bea6b5456cf2f4a5bae11089114dbffe, type: 2}
   - {fileID: 11400000, guid: 10688238b94884579ad2d8fcfead714a, type: 2}
+  - {fileID: 11400000, guid: 83d952ee356f24c74b34297a908b68b7, type: 2}
   - {fileID: 11400000, guid: 1d932637db67d4001a22904d69a479d4, type: 2}
+  - {fileID: 11400000, guid: 08ed1f31878384ad2b352535255fb710, type: 2}
+  - {fileID: 11400000, guid: 273e2e7d2c1f242c5bbb683690256ec7, type: 2}
+  - {fileID: 11400000, guid: 1a3344e6d3d484d31bd4aece89d1b229, type: 2}
+  - {fileID: 11400000, guid: 62200400f7b3f4864ab1c67527dd6749, type: 2}
+  - {fileID: 11400000, guid: ebaa30a91f9334fc5ac2c99fca75f788, type: 2}
+  - {fileID: 11400000, guid: 02c2628ec96834ebba25bbe7986e38a0, type: 2}
   - {fileID: 11400000, guid: 94010b2f82ef64ac48855c4d31d77136, type: 2}
+  - {fileID: 11400000, guid: b957c4f2ba37d4d46a4489bb0c6ccb41, type: 2}
 --- !u!114 &460574750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -908,7 +918,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoomDog.Core.CardGameManager
   _CurrentPlayerTurnIndex: 0
-  _IsGameStarted: 0
+  _IsGameStarted:
+    _value: 0
+  _HasDrawnCardThisTurn:
+    _value: 0
   playerPrefab: {fileID: 2971981329434739115, guid: 1d0ce19fcd3934811a8bfaab3d5e3921, type: 3}
   spawnedCardPlayers: []
 --- !u!114 &460574751

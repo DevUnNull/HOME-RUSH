@@ -3,6 +3,7 @@ using UnityEngine;
 using BoomDog.Data;
 using BoomDog.Visual;
 using System.Collections.Generic;
+using DG.Tweening;
 
 namespace BoomDog.Core
 {
@@ -14,6 +15,11 @@ namespace BoomDog.Core
         [Networked] public NetworkBool IsDead { get; set; }
 
         public List<string> handCardIds = new List<string>();
+
+        private RectTransform _mockHandRect;
+        private float _originalMockHandY;
+        private bool _isMyTurnRaised = true; // Mặc định là đang giơ lên để tý hạ xuống
+        private int _lastChildCount = -1;
 
         [Header("UI Prefab (Non-Networked)")]
         public GameObject cardUIPrefab; // Kéo MockCardPrefab vào đây
@@ -27,11 +33,19 @@ namespace BoomDog.Core
             if (HasStateAuthority) // Trong Shared Mode, người spawn ra object sẽ là StateAuthority
             {
                 Local = this;
-                Debug.Log("Local Player đã Spawn thành công trên mạng! Đang xin Host chia bài...");
-                RPC_RequestCards();
+                Debug.Log("Local Player đã Spawn thành công trên mạng!");
                 CreateDrawPileUI(); // Tự tạo UI Nọc Bài
+                
+                GameObject mockHandGO = GameObject.Find("MockHand_TestOnly");
+                if (mockHandGO != null)
+                {
+                    _mockHandRect = mockHandGO.GetComponent<RectTransform>();
+                    if (_mockHandRect != null) _originalMockHandY = _mockHandRect.anchoredPosition.y;
+                }
             }
         }
+
+        private TMPro.TextMeshProUGUI _deckCountText;
 
         private void CreateDrawPileUI()
         {
@@ -54,19 +68,23 @@ namespace BoomDog.Core
                     visual.SetFaceUp(false); // Úp bài
                     visual.MarkAsPlayed(); // KHÓA HOVER
                     
+                    // Thêm Text đếm số bài
+                    GameObject countTextGo = new GameObject("DeckCountText");
+                    countTextGo.transform.SetParent(dp.transform, false);
+                    countTextGo.transform.localPosition = new Vector3(0, -110f, 0); // Nằm dưới xấp bài một chút
+                    _deckCountText = countTextGo.AddComponent<TMPro.TextMeshProUGUI>();
+                    _deckCountText.text = "0";
+                    _deckCountText.fontSize = 40;
+                    _deckCountText.alignment = TMPro.TextAlignmentOptions.Center;
+                    _deckCountText.color = Color.white;
+                    _deckCountText.fontStyle = TMPro.FontStyles.Bold;
+                    
                     // Thêm nút bấm để bốc bài
                     var btn = deckVisual.AddComponent<UnityEngine.UI.Button>();
                     btn.onClick.AddListener(() => {
                         if (CardGameManager.Instance.IsMyTurn(Object.StateAuthority))
                         {
-                            if (!CardGameManager.Instance.HasDrawnCardThisTurn)
-                            {
-                                RPC_RequestDrawCard();
-                            }
-                            else
-                            {
-                                Debug.Log("Bạn ĐÃ bốc bài rồi! Hãy đánh 1 lá ra.");
-                            }
+                            RPC_RequestDrawCard();
                         }
                         else
                         {
@@ -77,18 +95,7 @@ namespace BoomDog.Core
             }
         }
 
-        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-        public void RPC_RequestCards()
-        {
-            // Chỉ người chủ phòng (nắm StateAuthority của GameManager) mới được quyền chia bài
-            if (CardGameManager.Instance.HasStateAuthority)
-            {
-                if (handCardIds.Count == 0 && DeckManager.Instance != null)
-                {
-                    DeckManager.Instance.DealCardsToSinglePlayer(this);
-                }
-            }
-        }
+
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
         public void RPC_RequestDrawCard()
@@ -102,8 +109,67 @@ namespace BoomDog.Core
                     if (!string.IsNullOrEmpty(cardId))
                     {
                         RPC_ReceiveCard(cardId);
-                        CardGameManager.Instance.HasDrawnCardThisTurn = true; // Đánh dấu là đã bốc bài
+                        
+                        // Bốc bài xong là kết thúc lượt
+                        CardGameManager.Instance.NextTurn(); 
                     }
+                }
+            }
+        }
+
+        public override void Render()
+        {
+            // Cập nhật liên tục số bài còn lại trên mọi máy (Render chạy mỗi frame trên Client)
+            if (_deckCountText != null && DeckManager.Instance != null && CardGameManager.Instance != null && CardGameManager.Instance.IsGameStarted)
+            {
+                _deckCountText.text = DeckManager.Instance.CardsInDeck.ToString();
+                
+                // Cập nhật quạt bài
+                if (_mockHandRect != null && _mockHandRect.childCount != _lastChildCount)
+                {
+                    _lastChildCount = _mockHandRect.childCount;
+                    UpdateHandFanLayout();
+                }
+
+                // Hiệu ứng nâng bài lên khi tới lượt (chỉ áp dụng cho máy Local)
+                if (_mockHandRect != null && HasStateAuthority)
+                {
+                    bool isMyTurn = CardGameManager.Instance.IsMyTurn(Object.StateAuthority);
+                    if (isMyTurn && !_isMyTurnRaised)
+                    {
+                        _isMyTurnRaised = true;
+                        _mockHandRect.DOAnchorPosY(_originalMockHandY, 0.3f).SetEase(DG.Tweening.Ease.OutBack);
+                    }
+                    else if (!isMyTurn && _isMyTurnRaised)
+                    {
+                        _isMyTurnRaised = false;
+                        _mockHandRect.DOAnchorPosY(_originalMockHandY - 60f, 0.3f).SetEase(DG.Tweening.Ease.InOutQuad);
+                    }
+                }
+            }
+        }
+
+        private void UpdateHandFanLayout()
+        {
+            if (_mockHandRect == null) return;
+            int childCount = _mockHandRect.childCount;
+            if (childCount == 0) return;
+
+            float maxAngle = 10f; // Hai bên nghiêng tối đa 10 độ
+            float maxYDrop = -15f; // Hai bên thấp xuống 15 pixel
+
+            for (int i = 0; i < childCount; i++)
+            {
+                Transform child = _mockHandRect.GetChild(i);
+                var cardVisual = child.GetComponent<BoomDog.Visual.CardVisual>();
+                
+                if (cardVisual != null)
+                {
+                    float normalizedPos = (childCount <= 1) ? 0 : ((float)i / (childCount - 1)) * 2f - 1f; 
+                    float angle = -normalizedPos * maxAngle;
+                    float yDrop = (normalizedPos * normalizedPos) * maxYDrop;
+                    
+                    cardVisual.SetFanOffset(yDrop, angle);
                 }
             }
         }
@@ -164,10 +230,10 @@ namespace BoomDog.Core
                 }
             }
             
-            // Chủ phòng nhận lệnh để chuyển lượt cho người tiếp theo
+            // Đánh dấu đã đánh 1 lá trong lượt này
             if (CardGameManager.Instance.HasStateAuthority)
             {
-                CardGameManager.Instance.NextTurn();
+                CardGameManager.Instance.HasPlayedCardThisTurn = true;
             }
         }
 
@@ -192,10 +258,10 @@ namespace BoomDog.Core
                 {
                     hlg.childControlWidth = false;
                     hlg.childControlHeight = false;
-                    hlg.spacing = -30f;
+                    hlg.spacing = -55f; // Xếp đè bài lên nhau y như ảnh
                 }
                 // Ép buộc thu nhỏ cả khung chứa bài
-                mockHand.localScale = new Vector3(0.55f, 0.55f, 1f);
+                mockHand.localScale = new Vector3(0.65f, 0.65f, 1f);
 
                 GameObject newCard = Instantiate(cardUIPrefab, mockHand);
                 newCard.name = "Card_" + data.cardName;
