@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: card_rainbow
   m_EditorClassIdentifier: Assembly-CSharp::BoomDog.Data.CardData
   id: card_rainbow
-  cardName: Rainbow-Ralphing Dog
+  cardName: 
   cardType: 8
   description: Template cho Rainbow-Ralphing Dog
-  cardFrontSprite: {fileID: 0}
+  cardFrontSprite: {fileID: 21300000, guid: cc2fc7d8c6b38434f849e20a38eb8b89, type: 3}
   highlightColor: {r: 1, g: 1, b: 1, a: 1}

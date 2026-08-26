@@ -10,6 +10,6 @@ namespace BoomDog.Data
         Shuffle,      // Trộn lại nọc
         Nope,         // Chặn tác dụng lá bài người khác
         Favor,        // Xin bài người khác
-        Normal        // Các lá bài thường (thu thập theo bộ)
+        CatCard       // Các lá bài mèo (thu thập theo bộ)
     }
 }

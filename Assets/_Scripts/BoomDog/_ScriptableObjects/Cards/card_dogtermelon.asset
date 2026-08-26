@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: card_dogtermelon
   m_EditorClassIdentifier: Assembly-CSharp::BoomDog.Data.CardData
   id: card_dogtermelon
-  cardName: Dogtermelon
+  cardName: 
   cardType: 8
   description: Template cho Dogtermelon
-  cardFrontSprite: {fileID: 0}
+  cardFrontSprite: {fileID: 21300000, guid: 78236337e4307485b94b6d7c35c67e7c, type: 3}
   highlightColor: {r: 1, g: 1, b: 1, a: 1}

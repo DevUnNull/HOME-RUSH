@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: card_defuse
   m_EditorClassIdentifier: Assembly-CSharp::BoomDog.Data.CardData
   id: card_defuse
-  cardName: Defuse
+  cardName: 
   cardType: 1
   description: "G\u1EE1 m\xECn th\xE0nh c\xF4ng!"
-  cardFrontSprite: {fileID: 0}
+  cardFrontSprite: {fileID: 21300000, guid: 0d59f98afc40444a4bae09dccc31a366, type: 3}
   highlightColor: {r: 1, g: 1, b: 1, a: 1}

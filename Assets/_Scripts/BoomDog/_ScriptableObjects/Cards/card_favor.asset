@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: card_favor
   m_EditorClassIdentifier: Assembly-CSharp::BoomDog.Data.CardData
   id: card_favor
-  cardName: Favor
+  cardName: 
   cardType: 7
   description: Template cho Favor
-  cardFrontSprite: {fileID: 0}
+  cardFrontSprite: {fileID: 21300000, guid: e6ec5f362a6a44ba8a8656b08e08e571, type: 3}
   highlightColor: {r: 1, g: 1, b: 1, a: 1}

@@ -71,4 +71,5 @@ MonoBehaviour:
   _IsDead:
     _value: 0
   handCardIds: []
+  selectedCards: []
   cardUIPrefab: {fileID: 4392645993594723886, guid: 8c250204038244f78a39d11eab38defe, type: 3}

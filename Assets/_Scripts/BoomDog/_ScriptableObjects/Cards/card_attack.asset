@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: card_attack
   m_EditorClassIdentifier: Assembly-CSharp::BoomDog.Data.CardData
   id: card_attack
-  cardName: Attack
+  cardName: 
   cardType: 2
   description: "K\u1EBFt th\xFAc l\u01B0\u1EE3t, ng\u01B0\u1EDDi ti\u1EBFp theo \u0111i
     2 l\u01B0\u1EE3t."
-  cardFrontSprite: {fileID: 0}
+  cardFrontSprite: {fileID: 21300000, guid: ca4464e9db6204477bbc0be718fcc541, type: 3}
   highlightColor: {r: 1, g: 1, b: 1, a: 1}

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: card_explode
   m_EditorClassIdentifier: Assembly-CSharp::BoomDog.Data.CardData
   id: card_explode
-  cardName: Exploding Dog
+  cardName: 
   cardType: 0
   description: "B\xF9m! B\u1EA1n b\u1ECB lo\u1EA1i n\u1EBFu kh\xF4ng c\xF3 Defuse."
-  cardFrontSprite: {fileID: 0}
+  cardFrontSprite: {fileID: 21300000, guid: de6f8dd5380bb41478b1c45d21f1a39b, type: 3}
   highlightColor: {r: 1, g: 1, b: 1, a: 1}

@@ -144,6 +144,15 @@ namespace BoomDog.Core
             return drawnId;
         }
 
+        public void ReturnCardToDrawPileRandomly(string cardId)
+        {
+            if (!HasStateAuthority) return;
+            System.Random rng = new System.Random();
+            int insertIndex = rng.Next(0, _drawPileIds.Count + 1);
+            _drawPileIds.Insert(insertIndex, cardId);
+            CardsInDeck = _drawPileIds.Count;
+        }
+
         public CardData GetCardDataById(string id)
         {
             var data = allAvailableCards.FirstOrDefault(c => c != null && c.id == id);

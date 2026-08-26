@@ -22,11 +22,11 @@ public class CardGenerator : EditorWindow
         CreateCardIfMissing(path, "card_seethefuture", "See The Future", CardType.SeeTheFuture);
         CreateCardIfMissing(path, "card_shuffle", "Shuffle", CardType.Shuffle);
         CreateCardIfMissing(path, "card_favor", "Favor", CardType.Favor);
-        CreateCardIfMissing(path, "card_tacodog", "Tacodog", CardType.Normal);
-        CreateCardIfMissing(path, "card_dogtermelon", "Dogtermelon", CardType.Normal);
-        CreateCardIfMissing(path, "card_hairypotato", "Hairy Potato Dog", CardType.Normal);
-        CreateCardIfMissing(path, "card_bearddog", "Beard Dog", CardType.Normal);
-        CreateCardIfMissing(path, "card_rainbow", "Rainbow-Ralphing Dog", CardType.Normal);
+        CreateCardIfMissing(path, "card_tacodog", "Tacodog", CardType.CatCard);
+        CreateCardIfMissing(path, "card_dogtermelon", "Dogtermelon", CardType.CatCard);
+        CreateCardIfMissing(path, "card_hairypotato", "Hairy Potato Dog", CardType.CatCard);
+        CreateCardIfMissing(path, "card_bearddog", "Beard Dog", CardType.CatCard);
+        CreateCardIfMissing(path, "card_rainbow", "Rainbow-Ralphing Dog", CardType.CatCard);
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();

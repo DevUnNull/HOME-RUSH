@@ -2,6 +2,7 @@ using Fusion;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using BoomDog.Visual;
 
 namespace BoomDog.Core
 {
@@ -10,11 +11,13 @@ namespace BoomDog.Core
         public static CardGameManager Instance { get; private set; }
         
         [Networked] public int CurrentPlayerTurnIndex { get; set; }
+        [Networked] public int RemainingTurns { get; set; }
+        [Networked] public NetworkBool HasDrawnThisTurn { get; set; }
         [Networked] public NetworkBool IsGameStarted { get; set; }
-        [Networked] public NetworkBool HasPlayedCardThisTurn { get; set; }
 
         [Header("Setup")]
         public NetworkObject playerPrefab; // Đã đổi sang NetworkObject cho dễ tự động gán
+        public GameObject originalPlayerVisualPrefab; // Kéo Player.prefab của bạn vào đây
         
         // Vị trí chỗ ngồi
         private Vector3[] seatPositions = {
@@ -30,7 +33,16 @@ namespace BoomDog.Core
 
         private void Awake()
         {
-            if (Instance == null) Instance = this;
+            if (Instance == null) 
+            {
+                Instance = this;
+                // Automatically add the Visual Manager
+                if (gameObject.GetComponent<BoomDog.Visual.CardGameVisualManager>() == null)
+                {
+                    var cvm = gameObject.AddComponent<BoomDog.Visual.CardGameVisualManager>();
+                    cvm.originalPlayerPrefab = originalPlayerVisualPrefab;
+                }
+            }
             else Destroy(gameObject);
         }
 
@@ -89,7 +101,8 @@ namespace BoomDog.Core
             
             IsGameStarted = true;
             CurrentPlayerTurnIndex = 0;
-            HasPlayedCardThisTurn = false;
+            RemainingTurns = 1;
+            HasDrawnThisTurn = false;
             
             Debug.Log("Game Started!");
             
@@ -101,12 +114,115 @@ namespace BoomDog.Core
             }
         }
 
-        public void NextTurn()
+        public CardPlayer GetCardPlayer(PlayerRef pRef)
+        {
+            foreach (var p in spawnedCardPlayers)
+            {
+                if (p != null && p.Object != null && p.Object.StateAuthority == pRef) return p;
+            }
+            return null;
+        }
+
+        public void FinishCurrentTurn()
         {
             if (!HasStateAuthority) return;
-            
-            CurrentPlayerTurnIndex = (CurrentPlayerTurnIndex + 1) % _activePlayers.Count;
-            HasPlayedCardThisTurn = false; // Reset giới hạn đánh bài cho người tiếp theo
+
+            RemainingTurns--;
+
+            if (GetAlivePlayerCount() <= 1)
+            {
+                GameOver();
+                return;
+            }
+
+            if (RemainingTurns > 0)
+            {
+                HasDrawnThisTurn = false;
+                return;
+            }
+
+            FindNextAlivePlayer();
+            RemainingTurns = 1;
+            HasDrawnThisTurn = false;
+        }
+
+        public void HandleAttack()
+        {
+            if (!HasStateAuthority) return;
+
+            int transferTurns = (RemainingTurns - 1) + 2;
+            RemainingTurns = 0;
+            FindNextAlivePlayer();
+            RemainingTurns = transferTurns;
+            HasDrawnThisTurn = false;
+        }
+
+        public void HandlePlayerDeath(PlayerRef deadPlayerRef)
+        {
+            if (!HasStateAuthority) return;
+
+            var p = GetCardPlayer(deadPlayerRef);
+            if (p != null) p.IsDead = true;
+
+            if (IsMyTurn(deadPlayerRef))
+            {
+                RemainingTurns = 0;
+
+                if (GetAlivePlayerCount() <= 1)
+                {
+                    GameOver();
+                    return;
+                }
+
+                FindNextAlivePlayer();
+                RemainingTurns = 1;
+                HasDrawnThisTurn = false;
+            }
+        }
+
+        private int GetAlivePlayerCount()
+        {
+            int count = 0;
+            foreach (var p in _activePlayers)
+            {
+                var cp = GetCardPlayer(p);
+                if (cp != null && !cp.IsDead) count++;
+            }
+            return count;
+        }
+
+        public List<PlayerRef> GetAlivePlayerRefs()
+        {
+            List<PlayerRef> alive = new List<PlayerRef>();
+            foreach (var p in _activePlayers)
+            {
+                var cp = GetCardPlayer(p);
+                if (cp != null && !cp.IsDead) alive.Add(p);
+            }
+            return alive;
+        }
+
+        private void FindNextAlivePlayer()
+        {
+            if (_activePlayers.Count == 0) return;
+
+            int safety = 0;
+            while (safety < 10)
+            {
+                CurrentPlayerTurnIndex = (CurrentPlayerTurnIndex + 1) % _activePlayers.Count;
+                var cp = GetCardPlayer(_activePlayers[CurrentPlayerTurnIndex]);
+                if (cp != null && !cp.IsDead)
+                {
+                    break;
+                }
+                safety++;
+            }
+        }
+
+        private void GameOver()
+        {
+            Debug.Log("Game Over!");
+            if (GameUIManager.Instance != null) GameUIManager.Instance.AddLog("GAME OVER! Đã tìm ra người thắng!");
         }
     }
 }

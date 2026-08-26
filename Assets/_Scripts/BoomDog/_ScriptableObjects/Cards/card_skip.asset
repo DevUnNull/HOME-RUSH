@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: card_skip
   m_EditorClassIdentifier: Assembly-CSharp::BoomDog.Data.CardData
   id: card_skip
-  cardName: Skip
+  cardName: 
   cardType: 3
   description: "K\u1EBFt th\xFAc l\u01B0\u1EE3t kh\xF4ng c\u1EA7n b\u1ED1c b\xE0i."
-  cardFrontSprite: {fileID: 0}
+  cardFrontSprite: {fileID: 21300000, guid: eecc095d875224784bfe117c54d80d7d, type: 3}
   highlightColor: {r: 1, g: 1, b: 1, a: 1}

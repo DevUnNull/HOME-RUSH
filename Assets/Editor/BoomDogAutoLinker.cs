@@ -9,6 +9,7 @@ using UnityEditor.SceneManagement;
 public class BoomDogAutoLinker : EditorWindow
 {
     [MenuItem("BoomDog/Auto Link Network Prefabs (Tự động gán Prefab)")]
+    [InitializeOnLoadMethod]
     public static void AutoLink()
     {
         bool isChanged = false;
@@ -91,6 +92,14 @@ public class BoomDogAutoLinker : EditorWindow
                     Debug.Log("✅ Đã gán CardPlayerPrefab vào GameManager.");
                     isChanged = true;
                 }
+
+                GameObject originalPlayer = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Prefaps/Player.prefab");
+                if (originalPlayer != null && cgm.originalPlayerVisualPrefab != originalPlayer)
+                {
+                    cgm.originalPlayerVisualPrefab = originalPlayer;
+                    Debug.Log("✅ Đã gán Player.prefab vào GameManager.");
+                    isChanged = true;
+                }
             }
 
             // 5. Nạp toàn bộ thẻ bài vào DeckManager
@@ -107,6 +116,43 @@ public class BoomDogAutoLinker : EditorWindow
                 }
                 EditorUtility.SetDirty(deck);
                 Debug.Log($"✅ Đã nạp {deck.allAvailableCards.Count} thẻ bài vào bộ bài.");
+                isChanged = true;
+            }
+
+            // 6. Tạo Background In-game
+            GameObject bgCanvas = GameObject.Find("BoomDogBackgroundCanvas");
+            if (bgCanvas == null)
+            {
+                bgCanvas = new GameObject("BoomDogBackgroundCanvas");
+                var canvas = bgCanvas.AddComponent<Canvas>();
+                canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                
+                if (Camera.main != null) canvas.worldCamera = Camera.main;
+                else canvas.renderMode = RenderMode.ScreenSpaceOverlay; // Fallback
+                
+                canvas.planeDistance = 100f; 
+                canvas.sortingOrder = -100;
+                
+                var scaler = bgCanvas.AddComponent<UnityEngine.UI.CanvasScaler>();
+                scaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                scaler.referenceResolution = new Vector2(1920, 1080);
+                scaler.screenMatchMode = UnityEngine.UI.CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+                scaler.matchWidthOrHeight = 0.5f;
+                
+                GameObject bgImageGo = new GameObject("BackgroundImage");
+                bgImageGo.transform.SetParent(bgCanvas.transform, false);
+                var img = bgImageGo.AddComponent<UnityEngine.UI.Image>();
+                
+                Sprite bgSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/_Scripts/BoomDog/_ScriptableObjects/SkinCards/bachgroundingame.png");
+                if (bgSprite != null) img.sprite = bgSprite;
+                
+                var rect = bgImageGo.GetComponent<RectTransform>();
+                rect.anchorMin = Vector2.zero;
+                rect.anchorMax = Vector2.one;
+                rect.offsetMin = Vector2.zero;
+                rect.offsetMax = Vector2.zero;
+
+                Debug.Log("✅ Đã tự động tạo Background cho ván đấu.");
                 isChanged = true;
             }
         }
